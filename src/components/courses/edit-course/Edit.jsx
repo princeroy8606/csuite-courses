@@ -9,10 +9,14 @@ const Edit = ({ courseData }) => {
   const [initialData, setInitialData] = useState(TestData);
   console.log(initialData.lessons);
   useEffect(() => {
-    if (popupOpen) window.scrollTo(0,0);
+    if (popupOpen) window.scrollTo(0, 0);
   }, [popupOpen]);
 
-  console.log(popupOpen.data)
+  useEffect(() => {
+    setInitialData(TestData);
+  }, [courseData]);
+
+  console.log(popupOpen.data);
   return (
     <div
       className="course-list-cnt new-course"
