@@ -303,8 +303,9 @@
   background: #e3d5fa;
   padding: 1rem;
   margin-top: 2.5rem;
-  &:hover{
-    box-shadow: 1px 1px 10px 2px rgb(214, 214, 214);  }
+  &:hover {
+    box-shadow: 1px 1px 10px 2px rgb(214, 214, 214);
+  }
 }
 
 .lesson-number {
@@ -541,7 +542,6 @@
     height: 2.5rem;
     font-size: 1rem;
   }
-  
 
   .course-delete-btn {
     width: 9rem;
@@ -604,5 +604,8 @@
     top: -3rem;
     font-size: 4rem;
     font-weight: 800;
+  }
+  .new-course {
+    min-height: 100vh;
   }
 }

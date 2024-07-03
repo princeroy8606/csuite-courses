@@ -4,7 +4,7 @@ import Trash from "../../Assets/Images/trash.png";
 import Edit from "../../Assets/Images/edit.png";
 
 const NewCourse = () => {
-  const [popupOpen, setPopupOpen] = useState(false);
+  const [popupOpen, setPopupOpen] = useState({ open: false, data: null });
 
   useEffect(()=>{
     if(popupOpen) window.scrollTo(0, 1000); 
@@ -27,13 +27,13 @@ const NewCourse = () => {
         <div className="top-btn-cnt">
           <div
             className=" course-delete-btn "
-            onClick={() => setPopupOpen(true)}
+            onClick={() => setPopupOpen({open:true})}
           >
             Cancel
           </div>
           <div
             className="add-new-lesson-btn"
-            onClick={() => setPopupOpen(true)}
+            onClick={() => setPopupOpen({open:true})}
           >
             Save Course
           </div>
@@ -71,26 +71,6 @@ const NewCourse = () => {
                 <p>Add</p>
               </div>
             </div>
-            <div className="overviewPoint-cnt">
-              <p className="overviewPoint-heading">
-                Selecting The correct code
-              </p>
-              <p className="overviewPoint-content">
-                This is the content of the overview and this is how it should
-                ddisplay the output Lorem ipsum dolor sit, amet consectetur
-                adipisicing elit. Voluptates aperiam minima
-              </p>
-            </div>
-            <div className="overviewPoint-cnt">
-              <p className="overviewPoint-heading">
-                Selecting The correct code
-              </p>
-              <p className="overviewPoint-content">
-                This is the content of the overview and this is how it should
-                ddisplay the output Lorem ipsum dolor sit, amet consectetur
-                adipisicing elit. Voluptates aperiam minima
-              </p>
-            </div>
           </div>
         </form>
         <form className="form-right">
@@ -100,16 +80,16 @@ const NewCourse = () => {
             </h3>
             <div
               className="add-new-lesson-btn"
-              onClick={() => setPopupOpen(true)}
+              onClick={() => setPopupOpen({open:true})}
             >
               Add new lesson{" "}
             </div>
           </div>
-          {/* <div className="no-lesson-cnt">
+          <div className="no-lesson-cnt">
             <img src={Nolesson} alt="no-lesson" className="empty-lesson-img" />
-          </div> */}
+          </div>
           <div className="lesson-list-cnt">
-            <div className="lesson" onClick={()=>setPopupOpen(true)}>
+            {/* <div className="lesson" onClick={()=>setPopupOpen({open:false})}>
               <h1 className="lesson-number">1</h1>
               <div className="lesson-title-cnt">
                 <h3 className="lesson-title">The heading of the lesson</h3>
@@ -140,12 +120,13 @@ const NewCourse = () => {
                   <p className="lesson-duration-txt">duration : 22:00</p>
                 </li>
               </ul>
-            </div>
+            </div> */}
+            
           </div>
         </form>
       </div>
       /
-      {popupOpen && (
+      {popupOpen.open && (
         <div className="lesson-popup-cnt">
           <div className="lesson-new-cnt">
             <div className="form-right-header">
