@@ -1,6 +1,5 @@
 // src/components/Sidebar.js
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import "./sidebar.css";
 import logo from "../Assets/logo.png";
