@@ -3,6 +3,13 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+::-webkit-scrollbar {
+  scrollbar-width: 0;
+  visibility: hidden;
+  display: none;
+}
+
 .courses-page {
   display: grid;
   width: 100%;

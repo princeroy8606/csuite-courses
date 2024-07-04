@@ -1,6 +1,6 @@
 // src/components/Sidebar.js
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import "./sidebar.css";
 import logo from "../Assets/logo.png";
 
@@ -12,7 +12,7 @@ const LeftBar = () => {
       </div>
       <div className="menu">
         <Link to="./" className="menu-item">
-        {/* <FontAwesomeIcon icon="fa-solid fa-fan" className="icon"/> */}
+          {/* <FontAwesomeIcon icon="fa-solid fa-fan" className="icon"/> */}
           <span>Dashboard</span>
         </Link>
         <Link to="./Profile" className="menu-item">
@@ -44,6 +44,15 @@ const LeftBar = () => {
         <Link to="./" className="menu-item">
           {/* <FontAwesomeIcon icon={"faCog"} className="icon" /> */}
           <span>Settings</span>
+        </Link>
+
+        <Link to="./users" className="menu-item">
+          {/* <FontAwesomeIcon icon={"faSignOutAlt"} className="icon" /> */}
+          <span>Users</span>
+        </Link>
+        <Link to="./purchases" className="menu-item">
+          {/* <FontAwesomeIcon icon={"faSignOutAlt"} className="icon" /> */}
+          <span>Purchases</span>
         </Link>
         <Link to="/" className="menu-item">
           {/* <FontAwesomeIcon icon={"faSignOutAlt"} className="icon" /> */}

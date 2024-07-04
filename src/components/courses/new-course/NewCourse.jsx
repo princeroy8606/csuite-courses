@@ -6,9 +6,9 @@ import Edit from "../../Assets/Images/edit.png";
 const NewCourse = () => {
   const [popupOpen, setPopupOpen] = useState({ open: false, data: null });
 
-  useEffect(()=>{
-    if(popupOpen) window.scrollTo(0, 1000); 
-  },[popupOpen])
+  useEffect(() => {
+    if (popupOpen) window.scrollTo(0, 1000);
+  }, [popupOpen]);
   return (
     <div
       className="course-list-cnt new-course"
@@ -27,13 +27,13 @@ const NewCourse = () => {
         <div className="top-btn-cnt">
           <div
             className=" course-delete-btn "
-            onClick={() => setPopupOpen({open:true})}
+            onClick={() => setPopupOpen({ open: true })}
           >
             Cancel
           </div>
           <div
             className="add-new-lesson-btn"
-            onClick={() => setPopupOpen({open:true})}
+            onClick={() => setPopupOpen({ open: true })}
           >
             Save Course
           </div>
@@ -80,7 +80,7 @@ const NewCourse = () => {
             </h3>
             <div
               className="add-new-lesson-btn"
-              onClick={() => setPopupOpen({open:true})}
+              onClick={() => setPopupOpen({ open: true })}
             >
               Add new lesson{" "}
             </div>
@@ -121,7 +121,6 @@ const NewCourse = () => {
                 </li>
               </ul>
             </div> */}
-            
           </div>
         </form>
       </div>
