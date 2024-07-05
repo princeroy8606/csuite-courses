@@ -70,6 +70,28 @@ const Edit = ({ courseData }) => {
               value={initialData.description}
             />
           </div>
+          <div className="flex-input">
+            <div className="course-name-cnt">
+              <p>Enter course price</p>
+              <input
+                type="number"
+                name=""
+                id=""
+                className="name-input price-input"
+                placeholder="₹"
+              />
+            </div>
+            <div className="course-name-cnt">
+              <p>Upload course thumnale</p>
+              <input
+                type="file"
+                name=""
+                id=""
+                className="styled-input"
+                placeholder=""
+              />
+            </div>
+          </div>
           <div className="course-description-cnt">
             <p>OverviewPoints</p>
             <div className="overview-input-cnt">
@@ -93,7 +115,18 @@ const Edit = ({ courseData }) => {
             </div>
             {initialData?.overviewPoints?.map((overview) => (
               <div className="overviewPoint-cnt">
+                <div className="overview-head-cnt">
                 <p className="overviewPoint-heading">{overview?.heading}</p>
+                <div className="action-btn-cnt-overview">
+                  <img src={Trash} alt="delete" className="action-img-overview" />
+                  <img
+                    src={EditImg}
+                    alt="edit"
+                    className="action-img-overview"
+                    // onClick={() => openEdit()}
+                  />
+                </div>
+                </div>
                 <p className="overviewPoint-content">{overview?.content}</p>
               </div>
             ))}

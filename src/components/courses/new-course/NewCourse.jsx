@@ -50,6 +50,28 @@ const NewCourse = () => {
             <p>Describe course</p>
             <textarea type="text" name="" id="" className="description-input" />
           </div>
+          <div className="flex-input">
+            <div className="course-name-cnt">
+              <p>Enter course price</p>
+              <input
+                type="number"
+                name=""
+                id=""
+                className="name-input price-input"
+                placeholder="₹"
+              />
+            </div>
+            <div className="course-name-cnt">
+              <p>Upload course thumnale</p>
+              <input
+                type="file"
+                name=""
+                id=""
+                className="styled-input"
+                placeholder=""
+              />
+            </div>
+          </div>
           <div className="course-description-cnt">
             <p>OverviewPoints</p>
             <div className="overview-input-cnt">
@@ -124,7 +146,6 @@ const NewCourse = () => {
           </div>
         </form>
       </div>
-      /
       {popupOpen.open && (
         <div className="lesson-popup-cnt">
           <div className="lesson-new-cnt">

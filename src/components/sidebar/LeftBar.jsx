@@ -23,7 +23,7 @@ const LeftBar = () => {
           {/* <FontAwesomeIcon icon={"faHeart"} className="icon" /> */}
           <span>Enrolled</span>
         </Link>
-        <Link to="./Courses" className="menu-item">
+        <Link to="/Courses" className="menu-item">
           {/* <FontAwesomeIcon icon={"faBook"} className="icon" /> */}
           <span>Courses</span>
         </Link>
@@ -46,11 +46,11 @@ const LeftBar = () => {
           <span>Settings</span>
         </Link>
 
-        <Link to="./users" className="menu-item">
+        <Link to="/users" className="menu-item">
           {/* <FontAwesomeIcon icon={"faSignOutAlt"} className="icon" /> */}
           <span>Users</span>
         </Link>
-        <Link to="./purchases" className="menu-item">
+        <Link to="/purchases" className="menu-item">
           {/* <FontAwesomeIcon icon={"faSignOutAlt"} className="icon" /> */}
           <span>Purchases</span>
         </Link>
