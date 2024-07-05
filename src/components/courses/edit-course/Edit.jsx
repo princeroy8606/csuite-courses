@@ -7,7 +7,7 @@ import TestData from "../../Assets/Data/courseContent.json";
 const Edit = ({ courseData }) => {
   const [popupOpen, setPopupOpen] = useState({ open: false, data: null });
   const [initialData, setInitialData] = useState(TestData);
-  console.log(initialData.lessons);
+  
   useEffect(() => {
     if (popupOpen) window.scrollTo(0, 0);
   }, [popupOpen]);

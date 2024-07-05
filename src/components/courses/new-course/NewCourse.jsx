@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import Nolesson from "../../Assets/Images/no-lesson-illustration.svg";
 import Trash from "../../Assets/Images/trash.png";
 import Edit from "../../Assets/Images/edit.png";
+import { useNavigate } from "react-router-dom";
 
 const NewCourse = () => {
   const [popupOpen, setPopupOpen] = useState({ open: false, data: null });
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (popupOpen) window.scrollTo(0, 1000);
@@ -27,13 +29,13 @@ const NewCourse = () => {
         <div className="top-btn-cnt">
           <div
             className=" course-delete-btn "
-            onClick={() => setPopupOpen({ open: true })}
+            onClick={() => navigate('/')}
           >
             Cancel
           </div>
           <div
             className="add-new-lesson-btn"
-            onClick={() => setPopupOpen({ open: true })}
+            onClick={() => navigate('/')}
           >
             Save Course
           </div>
