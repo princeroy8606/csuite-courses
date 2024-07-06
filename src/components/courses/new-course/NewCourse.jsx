@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const NewCourse = () => {
   const [popupOpen, setPopupOpen] = useState({ open: false, data: null });
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (popupOpen) window.scrollTo(0, 1000);
@@ -27,16 +27,10 @@ const NewCourse = () => {
           </p>
         </div>
         <div className="top-btn-cnt">
-          <div
-            className=" course-delete-btn "
-            onClick={() => navigate('/')}
-          >
+          <div className=" course-delete-btn " onClick={() => navigate("/")}>
             Cancel
           </div>
-          <div
-            className="add-new-lesson-btn"
-            onClick={() => navigate('/')}
-          >
+          <div className="add-new-lesson-btn" onClick={() => navigate("/")}>
             Save Course
           </div>
         </div>
