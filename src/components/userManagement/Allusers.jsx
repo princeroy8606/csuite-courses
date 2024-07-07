@@ -7,16 +7,21 @@ import EditUserData from "./EditUserData";
 
 const Allusers = () => {
   const [addnewUser, setAddnewUser] = useState(false);
-  const [editnewUser, setEditUser] = useState(false);
+  const [editnewUser, setEditUser] = useState({ open: false, data: null });
   return (
     <div className="users-page-dashboard">
       <Sidebar />
       <Users
         openNewUser={() => setAddnewUser(true)}
-        openEditUser={() => setEditUser(true)}
+        openEditUser={(user) => setEditUser({ open: true, data: user })}
       />
       {addnewUser && <AddnewUser closeNewUser={() => setAddnewUser(false)} />}
-      {editnewUser && <EditUserData closeEditUser={() => setEditUser(false)} />}
+      {editnewUser.open && (
+        <EditUserData
+          currentData={editnewUser.data}
+          closeEditUser={() => setEditUser({ open: false, data: null })}
+        />
+      )}
     </div>
   );
 };

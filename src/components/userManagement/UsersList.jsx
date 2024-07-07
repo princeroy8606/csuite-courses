@@ -2,9 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import searchIcon from "../Assets/Images/potrate-1.jpg";
 import moreIcon from "../Assets/Images/more.png";
 import EditUser from "./EditUser";
+import { allUsers } from "../../api/baseApi";
 
 const UsersList = ({ editAction }) => {
-  const [editUser, setEditUser] = useState(false);
+  const [editUser, setEditUser] = useState({ open: false, data: null });
+  const [userList, setUserList] = useState(null);
   const wrapperRef = useRef(null);
 
   useEffect(() => {
@@ -24,6 +26,16 @@ const UsersList = ({ editAction }) => {
     };
   }, [editUser]);
 
+  useEffect(() => {
+    const getUsers = async () => {
+      console.log("strict");
+      const { data } = await allUsers();
+      setUserList(data?.user);
+    };
+    getUsers();
+  }, [editAction]);
+
+  console.log(userList);
   return (
     <div className="users-list-cnt">
       <div className="users-details-header">
@@ -33,44 +45,34 @@ const UsersList = ({ editAction }) => {
         <p className="user-date-cnt">Joined date</p>
         <p style={{ width: ".5rem" }}></p>
       </div>
-      <div className="user-details-cnt">
-        <div className="user-name-cnt">
-          <img src={searchIcon} alt="profile-icon" className="profile-img" />
-          <div className="name-cnt">
-            <h3>Test user</h3>
-            <p>testuser123@gmail.com</p>
+
+      {userList &&
+        userList?.map((user, index) => (
+          <div className="user-details-cnt" key={index}>
+            <div className="user-name-cnt">
+              <img
+                src={searchIcon}
+                alt="profile-icon"
+                className="profile-img"
+              />
+              <div className="name-cnt">
+                <h3>{user?.name}</h3>
+                <p>{user?.email}</p>
+              </div>
+            </div>
+            <p className="user-name-cnt details-text">{user?.position}</p>
+            <p className="details-text user-name-cnt">{user?.companyname}</p>
+            <p className="details-text user-date-cnt">july 4, 2023</p>
+            <img
+              src={moreIcon}
+              alt="more"
+              className="more-icon"
+              onClick={() => setEditUser({ open: true, data: user })}
+            />
           </div>
-        </div>
-        <p className="user-name-cnt details-text">Marketing Manager</p>
-        <p className="details-text user-name-cnt">Google</p>
-        <p className="details-text user-date-cnt">july 4, 2023</p>
-        <img
-          src={moreIcon}
-          alt="more"
-          className="more-icon"
-          onClick={() => setEditUser(true)}
-        />
-      </div>
-      <div className="user-details-cnt">
-        <div className="user-name-cnt">
-          <img src={searchIcon} alt="profile-icon" className="profile-img" />
-          <div className="name-cnt">
-            <h3>Test user</h3>
-            <p>testuser123@gmail.com</p>
-          </div>
-        </div>
-        <p className="user-name-cnt details-text">Hr-manager</p>
-        <p className="details-text user-name-cnt">One-yes Infotech solutions</p>
-        <p className="details-text user-date-cnt">july 4, 2023</p>
-        <img
-          src={moreIcon}
-          alt="more"
-          className="more-icon"
-          onClick={() => setEditUser(true)}
-        />
-      </div>
+        ))}
       <div ref={wrapperRef}>
-        <EditUser open={editUser} openEdit={editAction} />
+        <EditUser open={editUser} openEdit={editAction} data={editUser.data} />
       </div>
     </div>
   );

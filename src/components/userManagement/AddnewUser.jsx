@@ -1,6 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
+import { addnewUser } from "../../api/baseApi";
 
 const AddnewUser = ({ closeNewUser }) => {
+  const [newUserData, setNewUserData] = useState({
+    name: null,
+    email: null,
+    companyname: null,
+    position: null,
+    gender: null,
+  });
+
+  const handleChnageData = (type, value) => {
+    setNewUserData({ ...newUserData, [type]: value });
+  };
+
+  const createNewUser = async () => {
+    try {
+      const res = await addnewUser(newUserData);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="add-new-user-cover">
       <div className="add-new-user-cnt">
@@ -11,23 +33,53 @@ const AddnewUser = ({ closeNewUser }) => {
         <form className="user-details-from">
           <div className="course-name-cnt user-input">
             <p>Enter user Name</p>
-            <input type="text" name="" id="" className="name-input " />
+            <input
+              type="text"
+              name=""
+              id=""
+              className="name-input "
+              onChange={(e) => handleChnageData("name", e.target.value)}
+            />
           </div>
           <div className="course-name-cnt user-input">
             <p>Enter user email</p>
-            <input type="text" name="" id="" className="name-input " />
+            <input
+              type="text"
+              name=""
+              id=""
+              className="name-input "
+              onChange={(e) => handleChnageData("email", e.target.value)}
+            />
           </div>
           <div className="course-name-cnt user-input">
             <p>Enter user company</p>
-            <input type="text" name="" id="" className="name-input " />
+            <input
+              type="text"
+              name=""
+              id=""
+              className="name-input "
+              onChange={(e) => handleChnageData("companyname", e.target.value)}
+            />
           </div>
           <div className="course-name-cnt user-input">
             <p>Enter user position</p>
-            <input type="text" name="" id="" className="name-input " />
+            <input
+              type="text"
+              name=""
+              id=""
+              className="name-input "
+              onChange={(e) => handleChnageData("position", e.target.value)}
+            />
           </div>
           <div className="course-name-cnt user-input">
             <p>Enter user geneder</p>
-            <input type="text" name="" id="" className="name-input " />
+            <input
+              type="text"
+              name=""
+              id=""
+              className="name-input "
+              onChange={(e) => handleChnageData("gender", e.target.value)}
+            />
           </div>
           <div
             className="course-name-cnt name-input user-input "
@@ -47,7 +99,7 @@ const AddnewUser = ({ closeNewUser }) => {
           <div className=" course-delete-btn " onClick={() => closeNewUser()}>
             Cancel
           </div>
-          <div className="add-new-lesson-btn" onClick={() => closeNewUser()}>
+          <div className="add-new-lesson-btn" onClick={() => createNewUser()}>
             Add User
           </div>
         </div>
