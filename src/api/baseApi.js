@@ -12,4 +12,4 @@ export const deleteUser = (Id) => API.delete(`/api/user/${Id}`);
 
 export const allPurchases = () => API.get(`/api/payment`);
 
-export const addnewCourse = (course)=>API.post('/api/course')
+export const addnewCourse = (course)=>API.post('/api/courseDetail',course)

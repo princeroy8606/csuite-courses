@@ -29,8 +29,12 @@ const UsersList = ({ editAction }) => {
   useEffect(() => {
     const getUsers = async () => {
       console.log("strict");
-      const { data } = await allUsers();
-      setUserList(data?.user);
+      try {
+        const { data } = await allUsers();
+        setUserList(data?.user);
+      } catch (error) {
+        console.log(error);
+      }
     };
     getUsers();
   }, [editAction]);

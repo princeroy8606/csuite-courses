@@ -5,6 +5,7 @@ import Trash from "../../Assets/Images/trash.png";
 import EditImg from "../../Assets/Images/edit.png";
 import { useNavigate } from "react-router-dom";
 import NewLesson from "./NewLesson";
+import { addnewCourse } from "../../../api/baseApi";
 
 const NewCourse = () => {
   const [popupOpen, setPopupOpen] = useState({ open: false, data: null });
@@ -59,11 +60,14 @@ const NewCourse = () => {
 
   const addLessontoCourse = (lesson) => {
     const newLessons = [...courseData.lessons];
-    if(lesson.updateIndex === null){
-      newLessons.push({...lesson,updateIndex:newLessons?.length > 0 ? newLessons?.length : 0});
+    if (lesson.updateIndex === null) {
+      newLessons.push({
+        ...lesson,
+        updateIndex: newLessons?.length > 0 ? newLessons?.length : 0,
+      });
       setCourseData({ ...courseData, lessons: newLessons });
-    }else{
-      newLessons[lesson.updateIndex] = lesson
+    } else {
+      newLessons[lesson.updateIndex] = lesson;
       setCourseData({ ...courseData, lessons: newLessons });
     }
     setPopupOpen({ open: false });
@@ -76,10 +80,14 @@ const NewCourse = () => {
       courseData.lessons.length > 0 &&
       courseData.price
     ) {
-      // const {data} = await addNewCourse(courseData)
+      try {
+        const { data } = await addnewCourse(courseData);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
-  console.log(courseData);
 
   const handleRemoveOverview = (index) => {
     const newOverviews = [...courseData.overviews];
