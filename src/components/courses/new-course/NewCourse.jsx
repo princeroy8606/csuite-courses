@@ -1,30 +1,23 @@
 import React, { useEffect, useState } from "react";
 import Nolesson from "../../Assets/Images/no-lesson-illustration.svg";
 import Trash from "../../Assets/Images/trash.png";
-import Edit from "../../Assets/Images/edit.png";
+// import Edit from "../../Assets/Images/edit.png";
 import EditImg from "../../Assets/Images/edit.png";
 import { useNavigate } from "react-router-dom";
+import NewLesson from "./NewLesson";
 
 const NewCourse = () => {
   const [popupOpen, setPopupOpen] = useState({ open: false, data: null });
   const [currentOverview, setCurrentOverview] = useState({
-    title: null,
-    description: null,
-  });
-  const [currentLesson, setCurrentLesson] = useState({
-    title: null,
-    sublessons: [],
-  });
-  const [currentSublesson, setCurrentSublesson] = useState({
-    title: null,
-    duration: null,
-    url: "#",
+    title: "",
+    description: "",
+    updateIndex: null,
   });
 
   const navigate = useNavigate();
   const [courseData, setCourseData] = useState({
-    coursename: null,
-    description: null,
+    coursename: "",
+    description: "",
     price: null,
     thumbnail: null,
     overviews: [],
@@ -32,7 +25,7 @@ const NewCourse = () => {
   });
 
   useEffect(() => {
-    if (popupOpen) window.scrollTo(0, 1000);
+    if (popupOpen) window.scrollTo(0, 0);
   }, [popupOpen]);
 
   const handledirectInput = (type, value) => {
@@ -43,39 +36,63 @@ const NewCourse = () => {
     setCurrentOverview({ ...currentOverview, [type]: value });
   };
 
-  const handleSubLessonsInput = (type, value) => {
-    setCurrentSublesson({ ...currentSublesson, [type]: value });
-  };
-
-  const addSublessons = () => {
-    const newLessons = [...currentLesson.sublessons];
-    newLessons.push(currentSublesson);
-    setCurrentLesson({ ...currentLesson, sublessons: newLessons });
-  };
-
   const addNewOverview = () => {
     if (currentOverview.title && currentOverview.description) {
       const newOverview = courseData.overviews;
-      newOverview.push(currentOverview);
-      setCourseData({ ...courseData, overviews: newOverview });
+      if (currentOverview.updateIndex === null) {
+        newOverview.push({
+          ...currentOverview,
+          updateIndex: newOverview.length > 0 ? newOverview?.length : 0,
+        });
+        setCourseData({ ...courseData, overviews: newOverview });
+      } else {
+        newOverview[currentOverview?.updateIndex] = currentOverview;
+        setCourseData({ ...courseData, overviews: newOverview });
+      }
+      setCurrentOverview({
+        title: "",
+        description: "",
+        updateIndex: null,
+      });
     }
   };
 
-  const addLessontoCourse = () => {
+  const addLessontoCourse = (lesson) => {
     const newLessons = [...courseData.lessons];
-    newLessons.push(currentLesson);
-    setCourseData({ ...courseData, lessons: newLessons });
+    if(lesson.updateIndex === null){
+      newLessons.push({...lesson,updateIndex:newLessons?.length > 0 ? newLessons?.length : 0});
+      setCourseData({ ...courseData, lessons: newLessons });
+    }else{
+      newLessons[lesson.updateIndex] = lesson
+      setCourseData({ ...courseData, lessons: newLessons });
+    }
     setPopupOpen({ open: false });
   };
 
+  const uploadCourse = async () => {
+    if (
+      courseData.coursename &&
+      courseData.description &&
+      courseData.lessons.length > 0 &&
+      courseData.price
+    ) {
+      // const {data} = await addNewCourse(courseData)
+    }
+  };
   console.log(courseData);
+
+  const handleRemoveOverview = (index) => {
+    const newOverviews = [...courseData.overviews];
+    newOverviews.splice(index, 1);
+    setCourseData({ ...courseData, overviews: newOverviews });
+  };
 
   return (
     <div
       className="course-list-cnt new-course"
       style={{
-        // height:  popupOpen ? "100vh" :"auto",
-        overflow: popupOpen ? "hidden" : "scroll",
+        // height: popupOpen.open ? "100vh" : "auto",
+        overflow: popupOpen.open ? "hidden" : "scroll",
       }}
     >
       <div className="top-header-cnt">
@@ -89,7 +106,7 @@ const NewCourse = () => {
           <div className=" course-delete-btn " onClick={() => navigate("/")}>
             Cancel
           </div>
-          <div className="add-new-lesson-btn" onClick={() => navigate("/")}>
+          <div className="add-new-lesson-btn" onClick={() => uploadCourse()}>
             Save Course
           </div>
         </div>
@@ -102,6 +119,7 @@ const NewCourse = () => {
               type="text"
               name=""
               id=""
+              value={courseData?.coursename}
               className="name-input"
               onChange={(e) => handledirectInput("coursename", e.target.value)}
             />
@@ -113,6 +131,7 @@ const NewCourse = () => {
               type="text"
               name=""
               id=""
+              value={courseData?.description}
               className="description-input"
               onChange={(e) => handledirectInput("description", e.target.value)}
             />
@@ -124,6 +143,7 @@ const NewCourse = () => {
                 type="number"
                 name=""
                 id=""
+                value={courseData.price !== null ? courseData.price : ""}
                 className="name-input price-input"
                 placeholder="₹"
                 onChange={(e) => handledirectInput("price", e.target.value)}
@@ -148,6 +168,7 @@ const NewCourse = () => {
                 name=""
                 id=""
                 className="name-input"
+                value={currentOverview.title}
                 placeholder="Heading"
                 onChange={(e) => handleOverviewInput("title", e.target.value)}
               />
@@ -157,6 +178,7 @@ const NewCourse = () => {
                 id=""
                 className=" overview-input name-input"
                 placeholder="Description"
+                value={currentOverview.description}
                 onChange={(e) =>
                   handleOverviewInput("description", e.target.value)
                 }
@@ -168,8 +190,8 @@ const NewCourse = () => {
                 <p>Add</p>
               </div>
             </div>
-            {courseData?.overviews?.map((overview) => (
-              <div className="overviewPoint-cnt">
+            {courseData?.overviews?.map((overview, index) => (
+              <div className="overviewPoint-cnt" key={index}>
                 <div className="overview-head-cnt">
                   <p className="overviewPoint-heading">{overview?.title}</p>
                   <div className="action-btn-cnt-overview">
@@ -177,11 +199,13 @@ const NewCourse = () => {
                       src={Trash}
                       alt="delete"
                       className="action-img-overview"
+                      onClick={() => handleRemoveOverview(index)}
                     />
                     <img
                       src={EditImg}
                       alt="edit"
                       className="action-img-overview"
+                      onClick={() => setCurrentOverview(overview)}
                       // onClick={() => openEdit()}
                     />
                   </div>
@@ -198,7 +222,7 @@ const NewCourse = () => {
             </h3>
             <div
               className="add-new-lesson-btn"
-              onClick={() => setPopupOpen({ open: true })}
+              onClick={() => setPopupOpen({ open: true, data: null })}
             >
               Add new lesson
             </div>
@@ -209,7 +233,7 @@ const NewCourse = () => {
               courseData?.lessons?.map((lesson, index) => (
                 <div
                   className="lesson"
-                  onClick={() => setPopupOpen({ open: false })}
+                  onClick={() => setPopupOpen({ open: true, data: lesson })}
                 >
                   <h1 className="lesson-number">{index + 1}</h1>
                   <div className="lesson-title-cnt">
@@ -241,147 +265,11 @@ const NewCourse = () => {
         </form>
       </div>
       {popupOpen.open && (
-        <div className="lesson-popup-cnt">
-          <div className="lesson-new-cnt">
-            <div className="form-right-header">
-              <h3 className="course-new-title form-right-heading">
-                Create New Lesson
-              </h3>
-              <div className="top-btn-cnt">
-                <div
-                  className="add-new-lesson-btn cancel-btn"
-                  onClick={() => setPopupOpen({open:false})}
-                >
-                  Cancel
-                </div>
-                <div
-                  className="add-new-lesson-btn"
-                  onClick={() => addLessontoCourse()}
-                >
-                  Add to Course
-                </div>
-              </div>
-            </div>
-            <div className="new-lesson-top">
-              <div className="lesson-content-input-cnt">
-                <div className="sublesson-name-cnt">
-                  <p>Sub lesson Title</p>
-                  <input
-                    type="text"
-                    name=""
-                    id=""
-                    className="sublesson-title-input"
-                    onChange={(e) =>
-                      handleSubLessonsInput("title", e.target.value)
-                    }
-                  />
-                </div>
-                <div className="sublesson-content-cover">
-                  <div className="input-cnt">
-                    <p>Duration</p>
-                    <input
-                      type="text"
-                      name=""
-                      id=""
-                      className="sublesson-duration-input sublesson-title-input "
-                      onChange={(e) =>
-                        handleSubLessonsInput("duration", e.target.value)
-                      }
-                    />
-                  </div>
-                  <div className="input-cnt add-sublesson-btn">
-                    <div className="sublesson-title-input center-media">
-                      <p>upload video</p>
-                      <input
-                        type="file"
-                        name="video-upload"
-                        accept="video/*"
-                        id=""
-                        className="file-title-input "
-                      />
-                    </div>
-                  </div>
-                  <div
-                    className="add-new-lesson-btn add-sublesson-btn"
-                    onClick={() => addSublessons()}
-                  >
-                    Add
-                  </div>
-                </div>
-              </div>
-              <div className="lesson-name-cnt">
-                <p>Lesson Title</p>
-                <input
-                  type="text"
-                  name=""
-                  id=""
-                  className="lesson-title-input"
-                  onChange={(e) =>
-                    setCurrentLesson({
-                      ...currentLesson,
-                      title: e.target.value,
-                    })
-                  }
-                />
-              </div>
-            </div>
-            <div className="content-list">
-              {currentLesson?.sublessons?.map((sublesson) => (
-                <div className="lesson-content-input-cnt sublesson">
-                  <div className="sublesson-name-cnt">
-                    <p className="sublesson-title-txt">Sub lesson Title</p>
-                    <input
-                      type="text"
-                      name=""
-                      id=""
-                      value={sublesson?.title}
-                      className="sublesson-title-input sublesson-card-input"
-                    />
-                  </div>
-                  <div className="sublesson-content-cover">
-                    <div className="input-cnt sublesson-title-txt">
-                      <p>Duration</p>
-                      <input
-                        type="text"
-                        name=""
-                        id=""
-                        value={sublesson?.duration}
-                        className="sublesson-duration-input sublesson-title-input sublesson-card-input"
-                      />
-                    </div>
-                    <div className="input-cnt add-sublesson-btn">
-                      <div className="sublesson-title-input center-media sublesson-card-input">
-                        <p className="sublesson-title-txt">upload video</p>
-                        <input
-                          type="file"
-                          name="video-upload"
-                          accept="video/*"
-                          id=""
-                          className="file-title-input "
-                        />
-                      </div>
-                    </div>
-                    <div
-                      className="add-new-lesson-btn add-sublesson-btn edit-sublesson-btn"
-                      onClick={() => setPopupOpen(false)}
-                    >
-                      <div className="delete-btn">
-                        <img
-                          src={Trash}
-                          alt="delete"
-                          className="action-btn-img"
-                        />
-                      </div>
-                      <div className="delete-btn">
-                        <img src={Edit} alt="edit" className="action-btn-img" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        <NewLesson
+          addLesson={(lesson) => addLessontoCourse(lesson)}
+          editData={popupOpen?.data}
+          cancel={() => setPopupOpen({ open: false, data: null })}
+        />
       )}
     </div>
   );
