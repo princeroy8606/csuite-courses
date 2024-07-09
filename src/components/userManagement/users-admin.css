@@ -19,10 +19,11 @@
 
 .user-page {
   position: relative;
-  width: calc(100% - 200px);
-  padding: 3rem 4rem 0 4rem;
+  width: 100%;
+  padding: 2rem 1rem 0 1rem;
   justify-self: end;
   height: 100vh;
+  font-size: small;
 }
 
 .users-page-title {
@@ -34,7 +35,7 @@
 .users-list-header {
   width: 100%;
   height: 2.2rem;
-  margin-top: 2rem;
+  /* margin-top: 2rem; */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -97,10 +98,10 @@
   height: 80vh;
   display: flex;
   flex-direction: column;
-  margin-top: 2rem;
   gap: 1.5rem;
   overflow-y: scroll;
   padding-top: 3rem;
+  font-size: small;
 }
 
 .users-details-header {
@@ -113,7 +114,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem;
+  
 }
 
 .users-details-header p {
@@ -148,17 +149,17 @@
 }
 
 .name-cnt h3 {
-  font-size: 1rem;
+  font-size: smaller;
   font-weight: 500;
 }
 .name-cnt p {
-  font-size: 1rem;
+  font-size: smaller;
   font-weight: 400;
   color: rgb(93, 93, 93);
 }
 
 .details-text {
-  font-size: 1rem;
+  font-size: smaller;
   font-weight: 400;
   color: rgb(150, 150, 150);
 }
@@ -338,4 +339,41 @@
     position: absolute;
     top: 1rem;
     left: 2.5rem;
+}
+
+@media (min-width: 700px) {
+  .user-page{
+    padding: 2rem 2rem 0 2rem;
+    font-size: medium;
+  }
+
+  .users-list-cnt{
+    font-size: medium;
+  } 
+}
+
+@media (min-width: 1000px) {
+  .user-page {
+    position: relative;
+    width: calc(100% - 200px);
+    padding: 3rem 4rem 0 4rem;
+    justify-self: end;
+    height: 100vh;
+    font-size: 1rem;
+  }
+
+  .name-cnt h3 .details-text {
+    font-size: 1rem;
+  }
+
+  .users-details-header{
+    padding: 1rem;
+  }
+
+  .users-list-cnt{
+    margin-top: 2rem;
+  }
+  .users-list-header{
+    margin-top: 2rem;
+  }
 }
