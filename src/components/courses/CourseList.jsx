@@ -23,6 +23,7 @@ useEffect(()=>{
   fetchCourses()
 },[courses])
 
+
   return (
     <div className="course-list-cnt">
       <div className="course-list-header">
@@ -32,7 +33,7 @@ useEffect(()=>{
         </div>
       </div>
       <div className="course-list">
-        {courses && courseList?.map((course, index) => (
+        {courses && courses?.map((course, index) => (
           <CourseCard data={course} key={index} />
         ))}
       </div>

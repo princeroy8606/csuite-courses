@@ -2,52 +2,53 @@
     "title": "Strategic Leadership and Management",
     "overviewPoints": [
       {
-        "heading": "Strategic Focus",
-        "content": "Develop essential skills for effective strategic leadership and management."
+        "title": "Strategic Focus",
+        "description": "Develop essential skills for effective strategic leadership and management."
       },
       {
-        "heading": "Comprehensive Coverage",
-        "content": "Covers a wide spectrum from strategic planning to organizational transformation."
+        "title": "Comprehensive Coverage",
+        "description": "Covers a wide spectrum from strategic planning to organizational transformation."
       },
       {
-        "heading": "Dynamic Environments",
-        "content": "Learn strategies to navigate and thrive in today's rapidly evolving business landscapes."
+        "title": "Dynamic Environments",
+        "description": "Learn strategies to navigate and thrive in today's rapidly evolving business landscapes."
       },
       {
-        "heading": "Innovative Leadership",
-        "content": "Foster innovation and creativity to drive continuous improvement."
+        "title": "Innovative Leadership",
+        "description": "Foster innovation and creativity to drive continuous improvement."
       },
       {
-        "heading": "Data-Driven Decisions",
-        "content": "Gain insights into leveraging data for informed decision-making and initiatives."
+        "title": "Data-Driven Decisions",
+        "description": "Gain insights into leveraging data for informed decision-making and initiatives."
       },
       {
-        "heading": "Organizational Transformation",
-        "content": "Understand methodologies for leading successful organizational change."
+        "title": "Organizational Transformation",
+        "description": "Understand methodologies for leading successful organizational change."
       },
       {
-        "heading": "Global Perspective",
-        "content": "Gain insights into leadership challenges and opportunities in diverse markets."
+        "title": "Global Perspective",
+        "description": "Gain insights into leadership challenges and opportunities in diverse markets."
       },
       {
-        "heading": "Ethical Leadership",
-        "content": "Explore the importance of ethical leadership in building sustainable business practices."
+        "title": "Ethical Leadership",
+        "description": "Explore the importance of ethical leadership in building sustainable business practices."
       },
       {
-        "heading": "Team Empowerment",
-        "content": "Learn techniques to empower and motivate teams for high performance."
+        "title": "Team Empowerment",
+        "description": "Learn techniques to empower and motivate teams for high performance."
       },
       {
-        "heading": "Strategic Vision",
-        "content": "Develop a strategic vision that aligns organizational goals with stakeholder expectations."
+        "title": "Strategic Vision",
+        "description": "Develop a strategic vision that aligns organizational goals with stakeholder expectations."
       }
     ],
     "description": "This comprehensive course is designed to equip you with the critical skills needed for effective strategic leadership and management in today's dynamic business environment. It covers a wide range of topics from strategic planning to organizational transformation, delving deep into the complexities of modern leadership challenges. By exploring key concepts and practical applications, this course empowers you to lead with confidence, navigate through uncertainty, and adapt strategies to evolving market conditions.\nThroughout the course, you will gain insights into strategic decision-making processes, learn how to leverage data-driven insights for informed choices, and cultivate the ability to inspire and motivate teams toward common goals. Emphasizing innovation and adaptive leadership, you will explore methodologies for fostering creativity, managing change, and driving sustainable success in your organization.\n\nBy the end of this course, you will emerge not only with enhanced leadership capabilities but also with a strategic mindset ready to tackle complex business challenges and seize opportunities for growth in the global marketplace.",
     "lessons": [
       {
         "title": "Introduction to Strategic Planning",
+        "test":[],
         "description": "Explore the fundamentals of strategic planning and its importance in achieving organizational goals.",
-        "videos": [
+        "sublessons": [
           {
             "title": "Strategic Planning Overview",
             "link": "#",
@@ -62,8 +63,9 @@
       },
       {
         "title": "Leadership Strategies for Change",
+        "test":[],
         "description": "Learn effective leadership strategies to navigate and lead organizational change initiatives.",
-        "videos": [
+        "sublessons": [
           {
             "title": "Change Management Essentials",
             "link": "#",
@@ -78,8 +80,9 @@
       },
       {
         "title": "Innovation and Entrepreneurship",
+        "test":[],
         "description": "Explore the role of innovation and entrepreneurship in driving organizational growth and competitiveness.",
-        "videos": [
+        "sublessons": [
           {
             "title": "Innovation Frameworks",
             "link": "#",
@@ -94,8 +97,9 @@
       },
       {
         "title": "Strategic Decision Making",
+        "test":[],
         "description": "Develop essential skills in strategic decision-making processes and frameworks.",
-        "videos": [
+        "sublessons": [
           {
             "title": "Decision Analysis",
             "link": "#",
@@ -110,8 +114,9 @@
       },
       {
         "title": "Leading High-Performance Teams",
+        "test":[],
         "description": "Learn strategies to build and lead high-performance teams for achieving strategic objectives.",
-        "videos": [
+        "sublessons": [
           {
             "title": "Team Dynamics",
             "link": "#",
@@ -126,8 +131,9 @@
       },
       {
         "title": "Strategic Marketing and Brand Management",
+        "test":[],
         "description": "Understand the importance of strategic marketing and brand management in driving customer value and loyalty.",
-        "videos": [
+        "sublessons": [
           {
             "title": "Brand Strategy",
             "link": "#",
@@ -142,8 +148,10 @@
       },
       {
         "title": "Financial Strategies for Leaders",
+        "test":[],
+        "test":[],
         "description": "Gain insights into financial strategies and tools essential for strategic decision-making.",
-        "videos": [
+        "sublessons": [
           {
             "title": "Financial Analysis",
             "link": "#",
@@ -158,8 +166,9 @@
       },
       {
         "title": "Ethics and Corporate Governance",
+        "test":[],
         "description": "Explore ethical considerations and best practices in corporate governance.",
-        "videos": [
+        "sublessons": [
           {
             "title": "Corporate Ethics",
             "link": "#",

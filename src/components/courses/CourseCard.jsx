@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const CourseCard = ({ data }) => {
   const navigate = useNavigate();
   const resloveImagePath = (relativePath) => {
-    return require(`../Assets/Images/${relativePath}`);
+    return require(`../Assets/Images/imagenotxt.png`);
   };
   return (
     <div
@@ -17,7 +17,7 @@ const CourseCard = ({ data }) => {
         className="course-img"
       />
       <h4 className="course-card-title">{data?.title}</h4>
-      <p className="course-card-description">{data?.description}</p>
+      <p className="course-card-description">{data?.description?.slice(0,110)}..</p>
       <div className="course-edit-btn">
         <p>Edit Course</p>
       </div>

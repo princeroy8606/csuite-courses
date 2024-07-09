@@ -5,10 +5,11 @@ import { useLocation } from "react-router-dom";
 
 const EditCourse = () => {
   const data = useLocation().state;
+  console.log(data)
   return (
     <div className="courses-page">
       <Sidebar />
-      <Edit courseData={data} />
+      <Edit courseDetails={data} />
     </div>
   );
 };
