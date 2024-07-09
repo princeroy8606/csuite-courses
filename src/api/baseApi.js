@@ -6,10 +6,13 @@ export const addnewUser = (userdata) => API.post("/api/user", userdata);
 
 export const allUsers = () => API.get("/api/user");
 
-export const updateUser = (userdata,Id) => API.put(`/api/user/${Id}`, userdata);
+export const updateUser = (userdata, Id) =>
+  API.put(`/api/user/${Id}`, userdata);
 
 export const deleteUser = (Id) => API.delete(`/api/user/${Id}`);
 
 export const allPurchases = () => API.get(`/api/payment`);
 
-export const addnewCourse = (course)=>API.post('/api/courseDetail',course)
+export const addnewCourse = (course) => API.post("/api/courseDetail", course);
+
+export const getAllCourse = () => API.get("/api/courseDetail");

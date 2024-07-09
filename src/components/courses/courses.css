@@ -722,7 +722,7 @@ input[type="file"]::file-selector-button:active {
 }
 
 .question-input-cnt {
-  width: 50%;
+  width: 100%;
   min-height: 100%;
   padding: 1rem;
 }
@@ -737,7 +737,7 @@ input[type="file"]::file-selector-button:active {
 }
 
 .choice-cnt {
-  width: 45%;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -953,5 +953,13 @@ input[type="file"]::file-selector-button:active {
   }
   .new-course {
     min-height: 100vh;
+  }
+  .question-input-cnt {
+    width: 50%;
+    min-height: 100%;
+    padding: 1rem;
+  }
+  .choice-cnt {
+    width: 45%;
   }
 }

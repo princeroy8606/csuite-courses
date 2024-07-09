@@ -17,11 +17,11 @@ const NewCourse = () => {
 
   const navigate = useNavigate();
   const [courseData, setCourseData] = useState({
-    coursename: "",
+    title: "",
     description: "",
     price: null,
     thumbnail: null,
-    overviews: [],
+    overviewPoints: [],
     lessons: [],
   });
 
@@ -39,16 +39,16 @@ const NewCourse = () => {
 
   const addNewOverview = () => {
     if (currentOverview.title && currentOverview.description) {
-      const newOverview = courseData.overviews;
+      const newOverview = courseData.overviewPoints;
       if (currentOverview.updateIndex === null) {
         newOverview.push({
           ...currentOverview,
           updateIndex: newOverview.length > 0 ? newOverview?.length : 0,
         });
-        setCourseData({ ...courseData, overviews: newOverview });
+        setCourseData({ ...courseData, overviewPoints: newOverview });
       } else {
         newOverview[currentOverview?.updateIndex] = currentOverview;
-        setCourseData({ ...courseData, overviews: newOverview });
+        setCourseData({ ...courseData, overviewPoints: newOverview });
       }
       setCurrentOverview({
         title: "",
@@ -75,7 +75,7 @@ const NewCourse = () => {
 
   const uploadCourse = async () => {
     if (
-      courseData.coursename &&
+      courseData.title &&
       courseData.description &&
       courseData.lessons.length > 0 &&
       courseData.price
@@ -83,6 +83,7 @@ const NewCourse = () => {
       try {
         const { data } = await addnewCourse(courseData);
         console.log(data);
+        navigate('/')
       } catch (error) {
         console.log(error);
       }
@@ -127,9 +128,9 @@ const NewCourse = () => {
               type="text"
               name=""
               id=""
-              value={courseData?.coursename}
+              value={courseData?.title}
               className="name-input"
-              onChange={(e) => handledirectInput("coursename", e.target.value)}
+              onChange={(e) => handledirectInput("title", e.target.value)}
             />
           </div>
 

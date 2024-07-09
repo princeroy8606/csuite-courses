@@ -1,10 +1,28 @@
-import React from "react";
+import React, {useEffect, useState } from "react";
 import CourseCard from "./CourseCard";
 import courseList from "../Assets/Data/courseList.json";
 import { useNavigate } from "react-router-dom";
+import { getAllCourse } from "../../api/baseApi";
 
 const CourseList = () => {
   const navigate = useNavigate();
+  const [courses, SetCourses] = useState(null);
+
+useEffect(()=>{
+  const fetchCourses = async () => {
+    try {
+      if (courses === null ) {
+        const {data} = await getAllCourse();
+        SetCourses(data?.courses);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  fetchCourses()
+},[courses])
+
   return (
     <div className="course-list-cnt">
       <div className="course-list-header">
@@ -14,7 +32,7 @@ const CourseList = () => {
         </div>
       </div>
       <div className="course-list">
-        {courseList.map((course, index) => (
+        {courses && courseList?.map((course, index) => (
           <CourseCard data={course} key={index} />
         ))}
       </div>
