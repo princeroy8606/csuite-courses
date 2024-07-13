@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 // import Nolesson from "../../Assets/Images/no-lesson-illustration.svg";
 import Trash from "../../Assets/Images/trash.png";
 import EditImg from "../../Assets/Images/edit.png";
-import TestData from "../../Assets/Data/courseContent.json";
+// import TestData from "../../Assets/Data/courseContent.json";
 import Nolesson from "../../Assets/Images/no-lesson-illustration.svg";
 import BackIcon from "../../Assets/Images/left-arrow.png";
 import { useNavigate } from "react-router-dom";

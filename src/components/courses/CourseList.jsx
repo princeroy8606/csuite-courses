@@ -1,6 +1,6 @@
 import React, {useEffect, useState } from "react";
 import CourseCard from "./CourseCard";
-import courseList from "../Assets/Data/courseList.json";
+// import courseList from "../Assets/Data/courseList.json";
 import { useNavigate } from "react-router-dom";
 import { getAllCourse } from "../../api/baseApi";
 
