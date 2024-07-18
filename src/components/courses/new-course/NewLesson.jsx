@@ -3,15 +3,16 @@ import Trash from "../../Assets/Images/trash.png";
 import Edit from "../../Assets/Images/edit.png";
 import Test from "../../Assets/Images/exam.png";
 import AddTest from "./AddTest";
+import { uploadVedio } from "../../../api/baseApi";
 
-const NewLesson = ({ addLesson, cancel , editData }) => {
+const NewLesson = ({ addLesson, cancel, editData }) => {
   const [openTest, setOpenTest] = useState({ open: false, data: null });
 
   const [currentLesson, setCurrentLesson] = useState({
     title: null,
     sublessons: [],
     test: [],
-    updateIndex : null
+    updateIndex: null,
   });
   const [currentSublesson, setCurrentSublesson] = useState({
     title: "",
@@ -20,16 +21,32 @@ const NewLesson = ({ addLesson, cancel , editData }) => {
     updateIndex: null,
   });
 
+  const [sublessonFile, setSublessonFile] = useState(null);
+
   const handleSubLessonsInput = (type, value) => {
     setCurrentSublesson({ ...currentSublesson, [type]: value });
   };
 
-  const addSublessons = () => {
+  const getVideoURL = async () => {
+    try {
+      const vedioFormData = new FormData();
+      vedioFormData.append("video", sublessonFile);
+      console.log(vedioFormData);
+      const {data} = await uploadVedio(vedioFormData);
+      setCurrentSublesson({...currentSublesson,url:data?.videoUrl})
+      return data?.videoUrl;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const addSublessons = async () => {
+    const vediolink = await getVideoURL();
     const newLessons = [...currentLesson.sublessons];
     if (
       currentSublesson.title &&
       currentSublesson.duration &&
-      currentSublesson.url
+      vediolink
     ) {
       if (currentSublesson.updateIndex === null) {
         newLessons.push({
@@ -68,11 +85,11 @@ const NewLesson = ({ addLesson, cancel , editData }) => {
     setCurrentLesson({ ...currentLesson, sublessons: newsubLessons });
   };
 
-  console.log(currentLesson);
+  console.log(sublessonFile);
 
-  useEffect(()=>{
-    if(editData) setCurrentLesson(editData)
-  },[editData])
+  useEffect(() => {
+    if (editData) setCurrentLesson(editData);
+  }, [editData]);
 
   return (
     <div className="lesson-popup-cnt">
@@ -169,8 +186,10 @@ const NewLesson = ({ addLesson, cancel , editData }) => {
                     type="file"
                     name="video-upload"
                     accept="video/*"
+                    style={{ position: "absolute" }}
                     id=""
-                    className="file-title-input "
+                    className="file-title-input"
+                    onChange={(e) => setSublessonFile(e.target.files[0])}
                   />
                 </div>
               </div>
