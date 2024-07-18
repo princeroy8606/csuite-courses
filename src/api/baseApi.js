@@ -5,7 +5,7 @@ const API = axios.create({ baseURL: "https://c-suite.onrender.com/" });
 // user
 export const addnewUser = (userdata) => API.post("/api/user", userdata);
 
-export const allUsers = () => API.get("/api/user");
+export const allUsers = () => API.get("/api/user",console.log("req->"));
 
 export const updateUser = (userdata, Id) =>
   API.put(`/api/user/${Id}`, userdata);
