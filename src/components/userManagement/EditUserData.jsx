@@ -13,9 +13,17 @@ const EditUserData = ({ closeEditUser, currentData }) => {
   };
 
   const updateData = async () => {
+    const formData = new FormData();
+    formData.append("name", userData?.name);
+    formData.append("email", userData?.email);
+    formData.append("companyname", userData?.companyname);
+    formData.append("position", userData?.position);
+    formData.append("gender", userData?.gender);
+    formData.append("profilePic", userData?.profilePic);
+    formData.append("password", userData?.password);
     try {
       console.log(currentData?._id);
-      const response = await updateUser(userData, currentData?._id);
+      const response = await updateUser(formData, currentData?._id);
       if (response) closeEditUser();
     } catch (error) {
       console.log(error);
@@ -96,8 +104,33 @@ const EditUserData = ({ closeEditUser, currentData }) => {
               id=""
               className="name-input file-input-hide "
               placeholder="upload"
+              onChange={(e) =>
+                setUserData({ ...userData, profilePic: e.target.files[0] })
+              }
             />
           </div>
+          <div className="course-name-cnt user-input">
+            <p>Password</p>
+            <input
+              type="text"
+              name=""
+              value={userData?.password}
+              id=""
+              className="name-input "
+              onChange={(e) => handleValueChange("password", e.target.value)}
+            />
+          </div>
+          {/* <div className="course-name-cnt user-input">
+            <p>Geneder</p>
+            <input
+              type="text"
+              name=""
+              value={userData?.gender}
+              id=""
+              className="name-input "
+              onChange={(e) => handleValueChange("gender", e.target.value)}
+            />
+          </div> */}
         </form>
         <div className="bottom-btn-cnt">
           <div className=" course-delete-btn " onClick={() => closeEditUser()}>
