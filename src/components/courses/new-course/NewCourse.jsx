@@ -10,8 +10,8 @@ import { addnewCourse } from "../../../api/baseApi";
 const NewCourse = () => {
   const [popupOpen, setPopupOpen] = useState({ open: false, data: null });
   const [currentOverview, setCurrentOverview] = useState({
-    title: "",
-    description: "",
+    heading: "",
+    content: "",
     updateIndex: null,
   });
 
@@ -51,14 +51,15 @@ const NewCourse = () => {
         setCourseData({ ...courseData, overviewPoints: newOverview });
       }
       setCurrentOverview({
-        title: "",
-        description: "",
+        heading: "",
+        content: "",
         updateIndex: null,
       });
     }
   };
 
   const addLessontoCourse = (lesson) => {
+    console.log(lesson)
     const newLessons = [...courseData.lessons];
     if (lesson.updateIndex === null) {
       newLessons.push({
@@ -95,6 +96,13 @@ const NewCourse = () => {
     newOverviews.splice(index, 1);
     setCourseData({ ...courseData, overviews: newOverviews });
   };
+
+  const setEditValues = (overview,index)=>{
+    overview.updateIndex = index
+    setCurrentOverview(overview)
+  }
+
+  console.log(courseData)
 
   return (
     <div
@@ -177,9 +185,9 @@ const NewCourse = () => {
                 name=""
                 id=""
                 className="name-input"
-                value={currentOverview.title}
+                value={currentOverview.heading}
                 placeholder="Heading"
-                onChange={(e) => handleOverviewInput("title", e.target.value)}
+                onChange={(e) => handleOverviewInput("heading", e.target.value)}
               />
               <textarea
                 type="text"
@@ -187,9 +195,9 @@ const NewCourse = () => {
                 id=""
                 className=" overview-input name-input"
                 placeholder="Description"
-                value={currentOverview.description}
+                value={currentOverview.content}
                 onChange={(e) =>
-                  handleOverviewInput("description", e.target.value)
+                  handleOverviewInput("content", e.target.value)
                 }
               />
               <div
@@ -214,12 +222,12 @@ const NewCourse = () => {
                       src={EditImg}
                       alt="edit"
                       className="action-img-overview"
-                      onClick={() => setCurrentOverview(overview)}
+                      onClick={() => setEditValues(overview,index)}
                       // onClick={() => openEdit()}
                     />
                   </div>
                 </div>
-                <p className="overviewPoint-content">{overview?.description}</p>
+                <p className="overviewPoint-content">{overview?.content}</p>
               </div>
             ))}
           </div>
@@ -249,7 +257,7 @@ const NewCourse = () => {
                     <h3 className="lesson-title">{lesson?.title}</h3>
                   </div>
                   <ul className="lesson-subtitle-cnt">
-                    {lesson?.sublessons?.map((sublesson) => (
+                    {lesson?.chapter?.map((sublesson) => (
                       <li>
                         <p className="lesson-subtitle">{sublesson?.title}</p>
                         <p className="lesson-duration-txt">

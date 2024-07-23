@@ -31,7 +31,7 @@ const UsersList = ({ editAction }) => {
       console.log("strict");
       try {
         const { data } = await allUsers();
-        setUserList(data?.user);
+        setUserList(data?.users);
       } catch (error) {
         console.log(error);
       }
@@ -39,7 +39,7 @@ const UsersList = ({ editAction }) => {
     getUsers();
   }, [editAction]);
 
-  console.log(userList);
+  console.log(userList && userList[0].profilePic);
   return (
     <div className="users-list-cnt">
       <div className="users-details-header">
@@ -55,7 +55,7 @@ const UsersList = ({ editAction }) => {
           <div className="user-details-cnt" key={index}>
             <div className="user-name-cnt">
               <img
-                src={searchIcon}
+                src={`data:image/png;base64,${user?.profilePic}`}
                 alt="profile-icon"
                 className="profile-img"
               />

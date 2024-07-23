@@ -503,8 +503,8 @@ input[type="file"]::file-selector-button:active {
 
 .lesson-new-cnt {
   position: relative;
-  width: 95%;
-  height: 95%;
+  width: 98%;
+  height: 99%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -697,7 +697,7 @@ input[type="file"]::file-selector-button:active {
 
 .add-test-cnt {
   position: absolute;
-  top: 0;
+  top: -2rem;
   left: 0;
   width: 100%;
   min-height: 100%;
@@ -705,7 +705,20 @@ input[type="file"]::file-selector-button:active {
   background: rgb(250, 250, 250);
   z-index: 20;
   border-radius: 1rem;
-  padding: 1rem;
+  /* padding: 1rem; */
+}
+
+.test-top-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.test-title-input{
+  font-size: 1rem;
+  min-width: 15rem;
+  width: fit-content;
 }
 
 .questions-block-cnt {

@@ -1,81 +1,166 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { addnewTest, getLessonTest, updateTest } from "../../../api/baseApi";
 
-const AddTest = ({ data, closeTest, addTest }) => {
+const AddTest = ({ testId, closeTest, addTest }) => {
   const initialState = {
     question: "",
-    answer: null,
-    choices: [],
+    correctAnswer: null,
+    options: [],
     questionNumber: null,
+    updateIndex: null,
   };
 
-  const [currentTest, setCurrentTest] = useState(data);
+  const [currentTest, setCurrentTest] = useState({
+    title: "testing Exam",
+    timeLimit: 11,
+    questions: [],
+  });
+
   const [currentQuestion, setCurrentQuestion] = useState(initialState);
   const [dropDown, setDropDown] = useState(false);
+
+  useEffect(() => {
+    const getTest = async () => {
+      if (testId?.length > 1) {
+        const { data } = await getLessonTest(testId);
+        console.log(data);
+        setCurrentTest(data?.test);
+      }
+    };
+    getTest();
+  }, [testId]);
 
   const handleChoiceSelect = (index, value) => {
     setDropDown(false);
     setCurrentQuestion({
       ...currentQuestion,
-      answer: { index: index, value: value },
+      correctAnswer: currentQuestion?.options[index],
     });
   };
 
   const handleChoiceInput = (index, value) => {
-    const newChoices = [...currentQuestion.choices];
+    const newChoices = [...currentQuestion.options];
     newChoices[index] = value;
-    setCurrentQuestion({ ...currentQuestion, choices: newChoices });
+    setCurrentQuestion({ ...currentQuestion, options: newChoices });
   };
 
   const handleNext = () => {
-    const existingIndex = currentTest?.indexOf(currentQuestion);
-    const updatedtest = [...currentTest];
-    if (existingIndex === -1) {
+    const existingIndex = currentTest?.questions?.indexOf(currentQuestion);
+    console.log(existingIndex);
+    const updatedtest = [...currentTest.questions];
+    if (currentQuestion.updateIndex === null) {
       console.log("executing");
       updatedtest?.push(currentQuestion);
-      setCurrentTest(updatedtest);
-      //   initialState?.questionNumber += 1;
+      setCurrentTest({ ...currentTest, questions: updatedtest });
       setCurrentQuestion(initialState);
-    } else if (existingIndex + 1 === currentTest.length) {
-      updatedtest[existingIndex] = currentQuestion;
-      setCurrentTest(updatedtest);
+    } else if (
+      currentQuestion.updateIndex + 1 ===
+      currentTest?.questions?.length
+    ) {
+      updatedtest[currentQuestion.updateIndex] = currentQuestion;
+      setCurrentTest({ ...currentTest, questions: updatedtest });
       setCurrentQuestion(initialState);
     } else {
-      updatedtest[existingIndex] = currentQuestion;
-      setCurrentTest(updatedtest);
-      setCurrentQuestion(currentTest[existingIndex + 1]);
+      updatedtest[currentQuestion.updateIndex] = currentQuestion;
+      setCurrentTest({ ...currentTest, questions: updatedtest });
+      setCurrentQuestion(
+        currentTest?.questions?.[currentQuestion.updateIndex + 1]
+      );
     }
   };
 
   const checkquestionMatch = (index) => {
-    if (currentTest?.indexOf(currentQuestion) === index) return "#8949ff";
+    if (currentQuestion?.updateIndex === index || currentTest?.questions?.indexOf(currentQuestion) === index) return "#8949ff";
     return "transparent";
   };
 
   const questionValidation = () => {
     if (
-      currentQuestion?.question.length > 5 &&
-      currentQuestion?.answer &&
-      currentQuestion?.choices?.length === 4
+      currentQuestion?.question?.length > 5 &&
+      currentQuestion?.correctAnswer &&
+      currentQuestion?.options?.length === 4
     )
       return true;
     return false;
   };
 
-  const handleAddTest = () => {
-    addTest(currentTest);
-    closeTest();
+  const handleAddTest = async () => {
+    if (testId?.length > 5) {
+      try {
+        const { data } = await updateTest(currentTest);
+        console.log(data?.test?._id);
+        addTest(data?.test?._id);
+        closeTest();
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        const { data } = await addnewTest(currentTest);
+        console.log(data?.test?._id);
+        addTest(data?.test?._id);
+        closeTest();
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
+
+  console.log(currentQuestion);
 
   return (
     <div className="add-test-cnt">
-      <p>Test for this lessons</p>
+      <div className="test-top-header">
+        <div>
+          {/* <p>Test for this lessons</p> */}
+          <div className="lesson-name-cnt">
+            <p>Lesson Title</p>
+            <input
+              type="text"
+              name=""
+              id=""
+              value={currentTest?.title}
+              className="lesson-title-input test-title-input"
+              onChange={(e) =>
+                setCurrentTest({
+                  ...currentTest,
+                  title: e.target.value,
+                })
+              }
+            />
+          </div>
+        </div>
+        <div className="ela-description-cnt">
+          <p>Set Duration</p>
+          <div className="ela-timer-input-cnt">
+            <div className="ela-timer-cover">
+              <input
+                type="text"
+                name=""
+                id=""
+                className="ela-timer-input description-input "
+              />
+              <p>Hours</p>
+            </div>
+            <div className="ela-timer-cover">
+              <input
+                type="text"
+                name=""
+                id=""
+                className="ela-timer-input description-input "
+              />
+              <p>Minutes</p>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="questions-block-cnt">
-        {currentTest?.map((test, index) => (
+        {currentTest?.questions?.map((test, index) => (
           <div
             className="question-block"
             style={{ background: checkquestionMatch(index) }}
             key={index}
-            onClick={() => setCurrentQuestion(test)}
+            onClick={() => setCurrentQuestion({ ...test, updateIndex: index })}
           >
             <p
               key={index}
@@ -90,10 +175,19 @@ const AddTest = ({ data, closeTest, addTest }) => {
         ))}
         <div
           className="question-block"
-          style={{ background: currentQuestion }}
+          style={{
+            background: checkquestionMatch(null),
+          }}
           onClick={() => setCurrentQuestion(initialState)}
         >
-          <p className="question-number">{currentTest?.length + 1}</p>
+          <p
+            className="question-number"
+            style={{
+              color: checkquestionMatch(null) === "transparent" && "#8949ff",
+            }}
+          >
+            {currentTest?.questions?.length + 1}
+          </p>
         </div>
       </div>
       <div className="question-inputs-cnt">
@@ -117,8 +211,8 @@ const AddTest = ({ data, closeTest, addTest }) => {
               <p>Select Answer</p>
               <div className="selected-choice-display">
                 <p onClick={() => setDropDown(true)}>
-                  {currentQuestion?.answer?.value
-                    ? currentQuestion?.answer?.value
+                  {currentQuestion?.correctAnswer
+                    ? currentQuestion?.correctAnswer
                     : "Not selected"}
                 </p>
                 {dropDown && (
@@ -160,7 +254,7 @@ const AddTest = ({ data, closeTest, addTest }) => {
               id=""
               placeholder="Enter choice one"
               value={
-                currentQuestion?.choices[0] ? currentQuestion?.choices[0] : ""
+                currentQuestion?.options[0] ? currentQuestion?.options[0] : ""
               }
               onChange={(e) => handleChoiceInput(0, e.target.value)}
             />
@@ -173,7 +267,7 @@ const AddTest = ({ data, closeTest, addTest }) => {
               id=""
               placeholder="Enter choice two"
               value={
-                currentQuestion?.choices[1] ? currentQuestion?.choices[1] : ""
+                currentQuestion?.options[1] ? currentQuestion?.options[1] : ""
               }
               onChange={(e) => handleChoiceInput(1, e.target.value)}
             />
@@ -186,7 +280,7 @@ const AddTest = ({ data, closeTest, addTest }) => {
               id=""
               placeholder="Enter choice three"
               value={
-                currentQuestion?.choices[2] ? currentQuestion?.choices[2] : ""
+                currentQuestion?.options[2] ? currentQuestion?.options[2] : ""
               }
               onChange={(e) => handleChoiceInput(2, e.target.value)}
             />
@@ -199,7 +293,7 @@ const AddTest = ({ data, closeTest, addTest }) => {
               id=""
               placeholder="Enter choice four"
               value={
-                currentQuestion?.choices[3] ? currentQuestion?.choices[3] : ""
+                currentQuestion?.options[3] ? currentQuestion?.options[3] : ""
               }
               onChange={(e) => handleChoiceInput(3, e.target.value)}
             />

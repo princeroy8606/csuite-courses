@@ -13,7 +13,7 @@ useEffect(()=>{
     try {
       if (courses === null ) {
         const {data} = await getAllCourse();
-        SetCourses(data?.courses);
+        SetCourses(data);
       }
     } catch (error) {
       console.log(error);

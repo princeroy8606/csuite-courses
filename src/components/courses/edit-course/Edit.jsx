@@ -13,8 +13,8 @@ const Edit = ({ courseDetails }) => {
   const [popupOpen, setPopupOpen] = useState({ open: false, data: null });
   const [editCourse, setEditCourse] = useState(false);
   const [currentOverview, setCurrentOverview] = useState({
-    title: "",
-    description: "",
+    heading: "",
+    content: "",
     updateIndex: null,
   });
 
@@ -45,9 +45,9 @@ const Edit = ({ courseDetails }) => {
   };
 
   const addNewOverview = () => {
-    if (currentOverview.title && currentOverview.description) {
+    if (currentOverview.heading && currentOverview.content) {
       const newOverview = courseData.overviewPoints;
-      if (currentOverview.updateIndex === null) {
+      if (currentOverview.updateIndex === null || currentOverview.updateIndex === undefined) {
         newOverview.push({
           ...currentOverview,
           updateIndex: newOverview.length > 0 ? newOverview?.length : 0,
@@ -58,16 +58,17 @@ const Edit = ({ courseDetails }) => {
         setCourseData({ ...courseData, overviewPoints: newOverview });
       }
       setCurrentOverview({
-        title: "",
-        description: "",
+        heading: "",
+        content: "",
         updateIndex: null,
       });
     }
   };
 
   const addLessontoCourse = (lesson) => {
+    console.log("lesson",lesson)
     const newLessons = [...courseData.lessons];
-    if (lesson.updateIndex === null) {
+    if (lesson?.updateIndex === null ||lesson?.updateIndex === undefined ) {
       newLessons.push({
         ...lesson,
         updateIndex: newLessons?.length > 0 ? newLessons?.length : 0,
@@ -98,10 +99,20 @@ const Edit = ({ courseDetails }) => {
   };
 
   const handleRemoveOverview = (index) => {
-    const newOverviews = [...courseData.overviews];
+    const newOverviews = [...courseData?.overviewPoints];
     newOverviews.splice(index, 1);
-    setCourseData({ ...courseData, overviews: newOverviews });
+    setCourseData({ ...courseData, overviewPoints: newOverviews });
   };
+
+  const openEditLesson = (lesson,index)=>{
+    lesson.updateIndex = index
+    setPopupOpen({ open: true, data: lesson })
+  }
+
+  const setEditValues = (overview,index)=>{
+    overview.updateIndex = index
+    setCurrentOverview(overview)
+  }
 
   console.log(courseData);
   return (
@@ -213,9 +224,9 @@ const Edit = ({ courseDetails }) => {
                   id=""
                   className="name-input"
                   readOnly={editCourse ? false : true}
-                  value={currentOverview.title}
+                  value={currentOverview.heading}
                   placeholder="Heading"
-                  onChange={(e) => handleOverviewInput("title", e.target.value)}
+                  onChange={(e) => handleOverviewInput("heading", e.target.value)}
                 />
                 <textarea
                   type="text"
@@ -224,9 +235,9 @@ const Edit = ({ courseDetails }) => {
                   className=" overview-input name-input"
                   placeholder="Description"
                   readOnly={editCourse ? false : true}
-                  value={currentOverview.description}
+                  value={currentOverview.content}
                   onChange={(e) =>
-                    handleOverviewInput("description", e.target.value)
+                    handleOverviewInput("content", e.target.value)
                   }
                 />
                 <div
@@ -240,7 +251,7 @@ const Edit = ({ courseDetails }) => {
             {courseData?.overviewPoints?.map((overview, index) => (
               <div className="overviewPoint-cnt" key={index}>
                 <div className="overview-head-cnt">
-                  <p className="overviewPoint-heading">{overview?.title}</p>
+                  <p className="overviewPoint-heading">{overview?.heading}</p>
                   {editCourse && (
                     <div className="action-btn-cnt-overview">
                       <img
@@ -253,13 +264,13 @@ const Edit = ({ courseDetails }) => {
                         src={EditImg}
                         alt="edit"
                         className="action-img-overview"
-                        onClick={() => setCurrentOverview(overview)}
+                        onClick={() => setEditValues(overview,index)}
                         // onClick={() => openEdit()}
                       />
                     </div>
                   )}
                 </div>
-                <p className="overviewPoint-content">{overview?.description}</p>
+                <p className="overviewPoint-content">{overview?.content}</p>
               </div>
             ))}
           </div>
@@ -284,18 +295,18 @@ const Edit = ({ courseDetails }) => {
                 <div
                   className="lesson"
                   style={{ pointerEvents: editCourse ? "all" : "none" }}
-                  onClick={() => setPopupOpen({ open: true, data: lesson })}
+                  onClick={() => openEditLesson(lesson,index)}
                 >
                   <h1 className="lesson-number">{index + 1}</h1>
                   <div className="lesson-title-cnt">
                     <h3 className="lesson-title">{lesson?.title}</h3>
                   </div>
                   <ul className="lesson-subtitle-cnt">
-                    {lesson?.sublessons?.map((sublesson) => (
+                    {lesson?.chapter?.map((video) => (
                       <li>
-                        <p className="lesson-subtitle">{sublesson?.title}</p>
+                        <p className="lesson-subtitle">{video?.title}</p>
                         <p className="lesson-duration-txt">
-                          duration : {sublesson?.duration}
+                          duration : {video?.duration}
                         </p>
                       </li>
                     ))}

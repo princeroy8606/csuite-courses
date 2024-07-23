@@ -4,24 +4,34 @@ import Edit from "../../Assets/Images/edit.png";
 import Test from "../../Assets/Images/exam.png";
 import AddTest from "./AddTest";
 import { uploadVedio } from "../../../api/baseApi";
+import { findFileType } from "../../../hooks/newCourseFunctions";
 
 const NewLesson = ({ addLesson, cancel, editData }) => {
   const [openTest, setOpenTest] = useState({ open: false, data: null });
 
   const [currentLesson, setCurrentLesson] = useState({
     title: null,
-    sublessons: [],
-    test: [],
+    chapter: [],
+    testId: "",
     updateIndex: null,
+    description: "test-description",
   });
   const [currentSublesson, setCurrentSublesson] = useState({
     title: "",
     duration: "",
-    url: "#",
+    link: "#",
     updateIndex: null,
+    type: null,
   });
 
   const [sublessonFile, setSublessonFile] = useState(null);
+
+  const handleAddFile = (file) => {
+    const filetype = findFileType(file);
+    console.log("filetype");
+    setSublessonFile(file);
+    setCurrentSublesson({ ...currentSublesson, type: filetype });
+  };
 
   const handleSubLessonsInput = (type, value) => {
     setCurrentSublesson({ ...currentSublesson, [type]: value });
@@ -31,9 +41,9 @@ const NewLesson = ({ addLesson, cancel, editData }) => {
     try {
       const vedioFormData = new FormData();
       vedioFormData.append("video", sublessonFile);
-      console.log(vedioFormData);
-      const {data} = await uploadVedio(vedioFormData);
-      setCurrentSublesson({...currentSublesson,url:data?.videoUrl})
+      const { data } = await uploadVedio(vedioFormData);
+      console.log(data);
+      // setCurrentSublesson({...currentSublesson,url:data?.videoUrl})
       return data?.videoUrl;
     } catch (error) {
       console.log(error);
@@ -41,51 +51,70 @@ const NewLesson = ({ addLesson, cancel, editData }) => {
   };
 
   const addSublessons = async () => {
-    const vediolink = await getVideoURL();
-    const newLessons = [...currentLesson.sublessons];
-    if (
-      currentSublesson.title &&
-      currentSublesson.duration &&
-      vediolink
-    ) {
-      if (currentSublesson.updateIndex === null) {
-        newLessons.push({
-          ...currentSublesson,
-          updateIndex: newLessons?.length > 0 ? newLessons.length : 0,
-        });
-        setCurrentLesson({ ...currentLesson, sublessons: newLessons });
+    const newLessons = [...currentLesson.chapter];
+    if (currentSublesson.title && currentSublesson.duration && sublessonFile) {
+      let videoLink = await getVideoURL();
+      if (
+        currentSublesson.updateIndex === null ||
+        currentSublesson.updateIndex === undefined
+      ) {
+        newLessons.push({ ...currentSublesson, link: videoLink });
+        setCurrentLesson({ ...currentLesson, chapter: newLessons });
         setCurrentSublesson({
           title: "",
           duration: "",
-          url: "#",
+          link: "#",
           updateIndex: null,
+          type: null,
         });
       } else {
-        newLessons[currentSublesson.updateIndex] = currentSublesson;
-        setCurrentLesson({ ...currentLesson, sublessons: newLessons });
+        newLessons[currentSublesson.updateIndex] = {
+          ...currentSublesson,
+          link: videoLink,
+        };
+        setCurrentLesson({ ...currentLesson, chapter: newLessons });
         setCurrentSublesson({
           title: "",
           duration: "",
-          url: "#",
+          link: "#",
           updateIndex: null,
+          type: null,
         });
       }
+    } else if (
+      currentSublesson.link !== "#" &&
+      currentSublesson.title &&
+      currentSublesson.duration
+    ) {
+      newLessons[currentSublesson.updateIndex] = currentSublesson;
+      setCurrentLesson({ ...currentLesson, chapter: newLessons });
+      setCurrentSublesson({
+        title: "",
+        duration: "",
+        link: "#",
+        updateIndex: null,
+        type: null,
+      });
     }
   };
 
   const validateAndUpdateLesson = () => {
-    if (currentLesson.title && currentLesson.sublessons.length > 0) {
+    if (currentLesson.title && currentLesson.chapter.length > 0) {
       addLesson(currentLesson);
     }
   };
 
-  const handleRemoveSublesson = (index) => {
-    const newsubLessons = [...currentLesson.sublessons];
-    newsubLessons.splice(index, 1);
-    setCurrentLesson({ ...currentLesson, sublessons: newsubLessons });
+  const setEditSublesson = (chapter, index) => {
+    setCurrentSublesson({ ...chapter, updateIndex: index });
   };
 
-  console.log(sublessonFile);
+  const handleRemoveSublesson = (index) => {
+    const newsubLessons = [...currentLesson.chapter];
+    newsubLessons.splice(index, 1);
+    setCurrentLesson({ ...currentLesson, chapter: newsubLessons });
+  };
+
+  console.log(currentSublesson);
 
   useEffect(() => {
     if (editData) setCurrentLesson(editData);
@@ -96,9 +125,9 @@ const NewLesson = ({ addLesson, cancel, editData }) => {
       <div className="lesson-new-cnt">
         {openTest.open && (
           <AddTest
-            data={currentLesson.test}
+            testId={currentLesson?.testId}
             addTest={(data) => {
-              setCurrentLesson({ ...currentLesson, test: data });
+              setCurrentLesson({ ...currentLesson, testId: data });
             }}
             closeTest={() => setOpenTest({ open: false })}
           />
@@ -141,14 +170,14 @@ const NewLesson = ({ addLesson, cancel, editData }) => {
             <div
               className="lesson-test-overview-cnt"
               onClick={() =>
-                setOpenTest({ open: true, data: currentLesson.test })
+                setOpenTest({ open: true, data: currentLesson.testId })
               }
             >
               <img src={Test} alt="test" className="test" />
               <p>
-                {currentLesson?.test?.length < 1
+                {!currentLesson?.testId?.length > 3
                   ? "No Tests has been created for this lesson"
-                  : `Test with ${currentLesson?.test?.length} questions click to update`}
+                  : `Test click to update`}
               </p>
               <div className="lesson-test-overview-btn"></div>
             </div>
@@ -185,11 +214,11 @@ const NewLesson = ({ addLesson, cancel, editData }) => {
                   <input
                     type="file"
                     name="video-upload"
-                    accept="video/*"
+                    accept="video/*,application/pdf,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"
                     style={{ position: "absolute" }}
                     id=""
                     className="file-title-input"
-                    onChange={(e) => setSublessonFile(e.target.files[0])}
+                    onChange={(e) => handleAddFile(e.target.files[0])}
                   />
                 </div>
               </div>
@@ -203,8 +232,15 @@ const NewLesson = ({ addLesson, cancel, editData }) => {
           </div>
         </div>
         <div className="content-list">
-          {currentLesson?.sublessons?.map((sublesson, index) => (
-            <div className="lesson-content-input-cnt sublesson" key={index}>
+          {currentLesson?.chapter?.map((sublesson, index) => (
+            <div
+              className="lesson-content-input-cnt sublesson"
+              key={index}
+              style={{
+                background:
+                  currentSublesson.updateIndex === index ? "#eaeaea" : null,
+              }}
+            >
               <div className="sublesson-name-cnt">
                 <p className="sublesson-title-txt">Sub lesson Title</p>
                 <input
@@ -227,15 +263,11 @@ const NewLesson = ({ addLesson, cancel, editData }) => {
                   />
                 </div>
                 <div className="input-cnt add-sublesson-btn">
-                  <div className="sublesson-title-input center-media sublesson-card-input">
-                    <p className="sublesson-title-txt">upload video</p>
-                    <input
-                      type="file"
-                      name="video-upload"
-                      accept="video/*"
-                      id=""
-                      className="file-title-input "
-                    />
+                  <div
+                    className="sublesson-title-input center-media sublesson-card-input"
+                    onClick={() => window.open(sublesson?.link)}
+                  >
+                    <p className="sublesson-title-txt">play video</p>
                   </div>
                 </div>
                 <div
@@ -255,7 +287,7 @@ const NewLesson = ({ addLesson, cancel, editData }) => {
                       src={Edit}
                       alt="edit"
                       className="action-btn-img"
-                      onClick={() => setCurrentSublesson(sublesson)}
+                      onClick={() => setEditSublesson(sublesson, index)}
                     />
                   </div>
                 </div>
