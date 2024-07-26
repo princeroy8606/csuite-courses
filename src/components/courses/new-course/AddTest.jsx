@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { addnewTest, getLessonTest, updateTest } from "../../../api/baseApi";
+import { convertToUTC } from "../../../hooks/newCourseFunctions";
 
 const AddTest = ({ testId, closeTest, addTest }) => {
   const initialState = {
@@ -18,13 +19,15 @@ const AddTest = ({ testId, closeTest, addTest }) => {
 
   const [currentQuestion, setCurrentQuestion] = useState(initialState);
   const [dropDown, setDropDown] = useState(false);
+  const [duration, setDuration] = useState({ hours: 0, minutes: 0 });
 
   useEffect(() => {
     const getTest = async () => {
       if (testId?.length > 1) {
         const { data } = await getLessonTest(testId);
-        console.log(data);
         setCurrentTest(data?.test);
+        const time = convertToUTC(data?.test?.timeLimit);
+        setDuration(time);
       }
     };
     getTest();
@@ -45,11 +48,8 @@ const AddTest = ({ testId, closeTest, addTest }) => {
   };
 
   const handleNext = () => {
-    const existingIndex = currentTest?.questions?.indexOf(currentQuestion);
-    console.log(existingIndex);
     const updatedtest = [...currentTest.questions];
     if (currentQuestion.updateIndex === null) {
-      console.log("executing");
       updatedtest?.push(currentQuestion);
       setCurrentTest({ ...currentTest, questions: updatedtest });
       setCurrentQuestion(initialState);
@@ -70,7 +70,11 @@ const AddTest = ({ testId, closeTest, addTest }) => {
   };
 
   const checkquestionMatch = (index) => {
-    if (currentQuestion?.updateIndex === index || currentTest?.questions?.indexOf(currentQuestion) === index) return "#8949ff";
+    if (
+      currentQuestion?.updateIndex === index ||
+      currentTest?.questions?.indexOf(currentQuestion) === index
+    )
+      return "#8949ff";
     return "transparent";
   };
 
@@ -88,7 +92,6 @@ const AddTest = ({ testId, closeTest, addTest }) => {
     if (testId?.length > 5) {
       try {
         const { data } = await updateTest(currentTest);
-        console.log(data?.test?._id);
         addTest(data?.test?._id);
         closeTest();
       } catch (error) {
@@ -97,7 +100,6 @@ const AddTest = ({ testId, closeTest, addTest }) => {
     } else {
       try {
         const { data } = await addnewTest(currentTest);
-        console.log(data?.test?._id);
         addTest(data?.test?._id);
         closeTest();
       } catch (error) {
@@ -106,7 +108,18 @@ const AddTest = ({ testId, closeTest, addTest }) => {
     }
   };
 
-  console.log(currentQuestion);
+  useEffect(() => {
+    if (duration?.hours !== 0 || duration?.minutes !== 0) {
+      const totalSeconds = duration?.hours * 60 * 60 + duration?.minutes * 60;
+      if (totalSeconds !== undefined) {
+        setCurrentTest((currentTest) => {
+          return { ...currentTest, timeLimit: totalSeconds };
+        });
+      }
+    }
+  }, [duration]);
+
+  console.log(currentTest);
 
   return (
     <div className="add-test-cnt">
@@ -118,7 +131,6 @@ const AddTest = ({ testId, closeTest, addTest }) => {
             <input
               type="text"
               name=""
-              id=""
               value={currentTest?.title}
               className="lesson-title-input test-title-input"
               onChange={(e) =>
@@ -135,18 +147,24 @@ const AddTest = ({ testId, closeTest, addTest }) => {
           <div className="ela-timer-input-cnt">
             <div className="ela-timer-cover">
               <input
-                type="text"
+                type="number"
                 name=""
-                id=""
+                value={duration?.hours}
+                onChange={(e) =>
+                  setDuration({ ...duration, hours: e.target.value })
+                }
                 className="ela-timer-input description-input "
               />
               <p>Hours</p>
             </div>
             <div className="ela-timer-cover">
               <input
-                type="text"
+                type="number"
                 name=""
-                id=""
+                value={duration?.minutes}
+                onChange={(e) =>
+                  setDuration({ ...duration, minutes: e.target.value })
+                }
                 className="ela-timer-input description-input "
               />
               <p>Minutes</p>
@@ -251,7 +269,6 @@ const AddTest = ({ testId, closeTest, addTest }) => {
             <input
               type="text"
               name=""
-              id=""
               placeholder="Enter choice one"
               value={
                 currentQuestion?.options[0] ? currentQuestion?.options[0] : ""
@@ -264,7 +281,6 @@ const AddTest = ({ testId, closeTest, addTest }) => {
             <input
               type="text"
               name=""
-              id=""
               placeholder="Enter choice two"
               value={
                 currentQuestion?.options[1] ? currentQuestion?.options[1] : ""
@@ -277,7 +293,6 @@ const AddTest = ({ testId, closeTest, addTest }) => {
             <input
               type="text"
               name=""
-              id=""
               placeholder="Enter choice three"
               value={
                 currentQuestion?.options[2] ? currentQuestion?.options[2] : ""
@@ -290,7 +305,6 @@ const AddTest = ({ testId, closeTest, addTest }) => {
             <input
               type="text"
               name=""
-              id=""
               placeholder="Enter choice four"
               value={
                 currentQuestion?.options[3] ? currentQuestion?.options[3] : ""

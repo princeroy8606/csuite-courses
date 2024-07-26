@@ -6,6 +6,7 @@ import EditImg from "../../Assets/Images/edit.png";
 import { useNavigate } from "react-router-dom";
 import NewLesson from "./NewLesson";
 import { addnewCourse } from "../../../api/baseApi";
+import { convertToCourseFormData } from "../../../hooks/newCourseFunctions";
 
 const NewCourse = () => {
   const [popupOpen, setPopupOpen] = useState({ open: false, data: null });
@@ -82,6 +83,7 @@ const NewCourse = () => {
       courseData.price
     ) {
       try {
+        const courseFormData = convertToCourseFormData(courseData)
         const { data } = await addnewCourse(courseData);
         console.log(data);
         navigate('/')
@@ -167,13 +169,12 @@ const NewCourse = () => {
               />
             </div>
             <div className="course-name-cnt">
-              <p>Upload course thumnale</p>
+              <p>Upload course thumbnail</p>
               <input
                 type="file"
-                name=""
-                id=""
+                accept="png,svg"
+                onChange={(e)=>setCourseData({...courseData,thumbnail:e.target.files[0]})}
                 className="styled-input"
-                placeholder=""
               />
             </div>
           </div>
