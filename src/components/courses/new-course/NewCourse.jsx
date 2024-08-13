@@ -84,7 +84,7 @@ const NewCourse = () => {
     ) {
       try {
         const courseFormData = convertToCourseFormData(courseData)
-        const { data } = await addnewCourse(courseData);
+        const { data } = await addnewCourse(courseFormData);
         console.log(data);
         navigate('/')
       } catch (error) {

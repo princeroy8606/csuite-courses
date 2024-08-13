@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import searchIcon from "../Assets/Images/potrate-1.jpg";
 import moreIcon from "../Assets/Images/more.png";
 import EditUser from "./EditUser";
 import { allUsers } from "../../api/baseApi";
