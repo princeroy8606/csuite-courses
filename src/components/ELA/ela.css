@@ -49,7 +49,7 @@
 }
 
 .ela-choice {
-  width:100%;
+  width: 100%;
 }
 
 .ela-question-info-cnt {
@@ -130,9 +130,70 @@
   gap: 0.5rem;
 }
 
+.justify-section-cnt {
+  min-height: 10rem;
+  justify-content: space-around;
+}
+
+.section-indicator {
+  width: fit-content;
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #8949ff67;
+  padding-right: 0.2rem;
+}
+
+.section-indicator p {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.section-cnt {
+  width: 30%;
+  min-height: 100%;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  flex-wrap: wrap;
+  /* background: #e8d2ff; */
+  background: #d1d1d1;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 1px 1px 5px 1px rgb(205, 205, 205);
+  }
+}
+
+.questions-block-cover {
+  flex: 1;
+  height: fit-content;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.ela-update-btn {
+  width: 100%;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  background: #8949ff;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 1px 1px 5px 1px #aa84ef;
+  }
+}
+
 @media (min-width: 700px) {
-  .ela-inputs-cnt{
-    padding: .5rem;
+  .ela-inputs-cnt {
+    padding: 0.5rem;
     margin-top: 0;
   }
   .ela-choice {
@@ -147,7 +208,6 @@
     width: 35%;
     padding-top: 0;
     border: none;
-
   }
   .ela-choice-cnt {
     padding: 1rem;
@@ -158,7 +218,7 @@
 }
 
 @media (min-width: 1000px) {
-  .ela-inputs-cnt{
+  .ela-inputs-cnt {
     padding: 1rem;
   }
   .ela-test-page {
