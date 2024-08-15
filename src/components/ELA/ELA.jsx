@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { getEla } from "../../api/baseApi";
 import {
   addNewQuestion,
+  deleteSingleQuestion,
   editQuestions,
   editSectionDetails,
 } from "../../hooks/ElaFunctions";
 
-const ELA = ({ data, closeTest, addTest }) => {
+const ELA = () => {
   const initialState = {
     question: "",
     answer: null,
@@ -27,13 +28,11 @@ const ELA = ({ data, closeTest, addTest }) => {
     questions: [],
   };
 
-  const [currentTest, setCurrentTest] = useState(
-    data || {
-      1: [defaultSection],
-      2: [{ ...defaultSection, section: 2 }],
-      3: [{ ...defaultSection, section: 3 }],
-    }
-  );
+  const [currentTest, setCurrentTest] = useState([
+    defaultSection,
+    { ...defaultSection, section: 2 },
+    { ...defaultSection, section: 3 },
+  ]);
 
   const [currentQuestion, setCurrentQuestion] = useState(initialState);
   const [dropDown, setDropDown] = useState(false);
@@ -167,7 +166,18 @@ const ELA = ({ data, closeTest, addTest }) => {
     setCurrentTest({ ...currentTest, [currentSection]: data });
   };
 
-  console.log(currentTest)
+  const deleteQuestionByIndex = async () => {
+    if (currentQuestion.updateIndex !== null) {
+      const res = await deleteSingleQuestion(
+        TestId,
+        currentSection + 1,
+        currentQuestion.updateIndex
+      );
+      setCurrentTest(res?.sections);
+    }
+  };
+
+  console.log(currentTest);
   return (
     <div className="ela-test-page">
       <p className="ela-title">Create or Edit your ELA assessment</p>
@@ -225,110 +235,120 @@ const ELA = ({ data, closeTest, addTest }) => {
             </div>
           </div>
         </div>
-        <div
-          className="section-cnt"
-          onClick={() => setCurrentSection(1)}
-          style={{ background: currentSection === 1 && "#FFA500" }}
-        >
-          <div className="section-indicator">
-            <p>Section-2</p>
-          </div>
-          <div className="questions-block-cover">
-            {currentTest[1]?.questions?.map((test, index) => (
+        {currentTest.length > 1 && (
+          <div
+            className="section-cnt"
+            onClick={() => setCurrentSection(1)}
+            style={{ background: currentSection === 1 && "#FFA500" }}
+          >
+            <div className="section-indicator">
+              <p>Section-2</p>
+            </div>
+            <div className="questions-block-cover">
+              {currentTest[1]?.questions?.map((test, index) => (
+                <div
+                  className="question-block"
+                  style={{ background: checkquestionMatch(index, 1) }}
+                  key={index}
+                  onClick={() =>
+                    setCurrentQuestion({
+                      ...test,
+                      updateIndex:
+                        test.updateIndex !== undefined
+                          ? test.updateIndex
+                          : index,
+                    })
+                  }
+                >
+                  <p
+                    key={index}
+                    className="question-number"
+                    style={{
+                      color:
+                        checkquestionMatch(index, 1) === "transparent" &&
+                        "#8949ff",
+                    }}
+                  >
+                    {index + 1}
+                  </p>
+                </div>
+              ))}
               <div
                 className="question-block"
-                style={{ background: checkquestionMatch(index, 1) }}
-                key={index}
-                onClick={() =>
-                  setCurrentQuestion({
-                    ...test,
-                    updateIndex:
-                      test.updateIndex !== undefined ? test.updateIndex : index,
-                  })
-                }
+                style={{ background: checkquestionMatch(null, 1) }}
+                onClick={() => setCurrentQuestion(initialState)}
               >
                 <p
-                  key={index}
                   className="question-number"
                   style={{
                     color:
-                      checkquestionMatch(index, 1) === "transparent" &&
+                      checkquestionMatch(null, 1) === "transparent" &&
                       "#8949ff",
                   }}
                 >
-                  {index + 1}
+                  {currentTest[1]?.questions?.length + 1}
                 </p>
               </div>
-            ))}
-            <div
-              className="question-block"
-              style={{ background: checkquestionMatch(null, 1) }}
-              onClick={() => setCurrentQuestion(initialState)}
-            >
-              <p
-                className="question-number"
-                style={{
-                  color:
-                    checkquestionMatch(null, 1) === "transparent" && "#8949ff",
-                }}
-              >
-                {currentTest[1]?.questions?.length + 1}
-              </p>
             </div>
           </div>
-        </div>
-        <div
-          className="section-cnt"
-          onClick={() => setCurrentSection(2)}
-          style={{ background: currentSection === 2 && "#FFA500" }}
-        >
-          <div className="section-indicator">
-            <p>Section-3</p>
-          </div>
-          <div className="questions-block-cover">
-            {currentTest[2]?.questions?.map((test, index) => (
+        )}
+        {currentTest.length > 2 && (
+          <div
+            className="section-cnt"
+            onClick={() => setCurrentSection(2)}
+            style={{ background: currentSection === 2 && "#FFA500" }}
+          >
+            <div className="section-indicator">
+              <p>Section-3</p>
+            </div>
+            <div className="questions-block-cover">
+              {currentTest[2]?.questions?.map((test, index) => (
+                <div
+                  className="question-block"
+                  style={{ background: checkquestionMatch(index, 2) }}
+                  key={index}
+                  onClick={() =>
+                    setCurrentQuestion({
+                      ...test,
+                      updateIndex:
+                        test.updateIndex !== undefined
+                          ? test.updateIndex
+                          : index,
+                    })
+                  }
+                >
+                  <p
+                    key={index}
+                    className="question-number"
+                    style={{
+                      color:
+                        checkquestionMatch(index, 2) === "transparent" &&
+                        "#8949ff",
+                    }}
+                  >
+                    {index + 1}
+                  </p>
+                </div>
+              ))}
               <div
                 className="question-block"
-                style={{ background: checkquestionMatch(index, 2) }}
-                key={index}
-                onClick={() =>
-                  setCurrentQuestion({
-                    ...test,
-                    updateIndex:
-                      test.updateIndex !== undefined ? test.updateIndex : index,
-                  })
-                }
+                style={{ background: checkquestionMatch(null, 2) }}
+                onClick={() => setCurrentQuestion(initialState)}
               >
                 <p
-                  key={index}
                   className="question-number"
                   style={{
                     color:
-                      checkquestionMatch(index, 2) === "transparent" &&
+                      checkquestionMatch(null, 2) === "transparent" &&
                       "#8949ff",
                   }}
                 >
-                  {index + 1}
+                  {currentTest[2]?.questions?.length + 1}
                 </p>
               </div>
-            ))}
-            <div
-              className="question-block"
-              style={{ background: checkquestionMatch(null, 2) }}
-              onClick={() => setCurrentQuestion(initialState)}
-            >
-              <p
-                className="question-number"
-                style={{
-                  color:
-                    checkquestionMatch(null, 2) === "transparent" && "#8949ff",
-                }}
-              >
-                {currentTest[2]?.questions?.length + 1}
-              </p>
             </div>
           </div>
-        </div>
+        )}
       </div>
       <div className="ela-inputs-cnt">
         <div className="ela-question-input-cnt">
@@ -558,12 +578,18 @@ const ELA = ({ data, closeTest, addTest }) => {
           </div>
         </div>
       </div>
-      <div className="action-btns-cnt">
+      <div className="action-btns-cnt ela-actions-btn-cnt">
         <div
           className=" course-delete-btn cancel-test-btn"
-          onClick={() => closeTest()}
+          onClick={() => deleteQuestionByIndex()}
         >
-          Cancel
+          Delete question
+        </div>
+        <div
+          className=" course-delete-btn cancel-test-btn"
+          onClick={() => deleteQuestionByIndex()}
+        >
+          Delete Entire Section
         </div>
         <div
           className=" course-delete-btn save-next"

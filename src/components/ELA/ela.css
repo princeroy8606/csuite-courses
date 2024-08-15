@@ -153,7 +153,8 @@
 }
 
 .section-cnt {
-  width: 30%;
+  /* width: 30%; */
+  flex: 1;
   min-height: 100%;
   display: flex;
   gap: 0.5rem;
@@ -191,6 +192,10 @@
   }
 }
 
+.ela-actions-btn-cnt {
+  width: 100%;
+}
+
 @media (min-width: 700px) {
   .ela-inputs-cnt {
     padding: 0.5rem;
@@ -223,5 +228,9 @@
   }
   .ela-test-page {
     width: calc(100% - 200px);
+  }
+  .ela-actions-btn-cnt {
+    width: 90%;
+    justify-content: space-around;
   }
 }

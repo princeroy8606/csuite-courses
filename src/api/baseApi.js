@@ -35,8 +35,8 @@ export const updateTest = (test) => API.put(`/tests/${test._id}`, test);
 export const getLessonTest = (testId) => API.get(`/tests/${testId}`);
 
 // ELA
-
 export const getEla = () => API.get(`question`);
+
 export const addQuestion = (questionId, section, question) =>
   API.post(`question/${questionId}/sections/${section}/questions`, question);
 
@@ -44,7 +44,7 @@ export const updateQuestion = (questionId, section, questions) =>
   API.put(`question/${questionId}/sections/${section}/questions`, questions);
 
 export const updateSection = (questionId, section, sectionDetails) =>
-  API.put(
-    `question/${questionId}/sections/${section}/questions`,
-    sectionDetails
-  );
+  API.put(`question/${questionId}/sections/${section}/details`, sectionDetails);
+
+export const deleteQuestion = (questionId, section, index) =>
+  API.delete(`question/${questionId}/sections/${section}/questions/${index}`);
