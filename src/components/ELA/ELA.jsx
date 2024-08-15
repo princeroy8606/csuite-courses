@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { getEla } from "../../api/baseApi";
 import {
   addNewQuestion,
+  addSection,
   deleteSingleQuestion,
+  deleteSingleSection,
   editQuestions,
   editSectionDetails,
 } from "../../hooks/ElaFunctions";
@@ -56,7 +58,6 @@ const ELA = () => {
 
   const handleNext = async () => {
     const updateIndex = currentQuestion?.updateIndex;
-    // console.log(updateIndex,currentTest);
     const updatestart = { ...currentTest };
     if (updateIndex === null) {
       console.log("executing");
@@ -114,11 +115,6 @@ const ELA = () => {
     return false;
   };
 
-  // const handleAddTest = () => {
-  //   addTest(currentTest);
-  //   closeTest();
-  // };
-
   useEffect(() => {
     const fetchEla = async () => {
       const { data } = await getEla();
@@ -141,9 +137,7 @@ const ELA = () => {
   };
 
   const updateTags = (value) => {
-    console.log(value);
     const tagsArray = value.split(",");
-    console.log(tagsArray);
     let currentData = { ...currentTest };
     currentData[currentSection].tags = tagsArray;
     setCurrentTest(currentData);
@@ -177,7 +171,23 @@ const ELA = () => {
     }
   };
 
-  console.log(currentTest);
+  const deleteSection = async () => {
+    const res = await deleteSingleSection(TestId, currentSection + 1);
+    setCurrentTest(res.sections);
+    console.log(res.sections);
+    if (res) setCurrentTest(res.sections);
+  };
+
+  const addNewSection = async () => {
+    const res = await addSection(TestId, {
+      ...defaultSection,
+      section: currentTest.length + 1,
+    });
+    console.log(res.sections);
+    setCurrentTest(res.sections);
+  };
+
+  console.log(currentQuestion);
   return (
     <div className="ela-test-page">
       <p className="ela-title">Create or Edit your ELA assessment</p>
@@ -349,6 +359,11 @@ const ELA = () => {
             </div>
           </div>
         )}
+        <div className="ela-new-section-btn" onClick={() => addNewSection()}>
+          <div className="new-section-btn-text">
+            <p>Add Section</p>
+          </div>
+        </div>
       </div>
       <div className="ela-inputs-cnt">
         <div className="ela-question-input-cnt">
@@ -587,7 +602,7 @@ const ELA = () => {
         </div>
         <div
           className=" course-delete-btn cancel-test-btn"
-          onClick={() => deleteQuestionByIndex()}
+          onClick={() => deleteSection()}
         >
           Delete Entire Section
         </div>

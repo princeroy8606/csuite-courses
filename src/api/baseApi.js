@@ -48,3 +48,9 @@ export const updateSection = (questionId, section, sectionDetails) =>
 
 export const deleteQuestion = (questionId, section, index) =>
   API.delete(`question/${questionId}/sections/${section}/questions/${index}`);
+
+export const deleteTestSection = (questionId, section) =>
+  API.delete(`question/${questionId}/sections/${section}`);
+
+export const addSectionToTest = (questionId, sectionData) =>
+  API.post(`question/${questionId}/sections`, sectionData);

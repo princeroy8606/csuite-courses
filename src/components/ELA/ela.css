@@ -191,9 +191,30 @@
     box-shadow: 1px 1px 5px 1px #aa84ef;
   }
 }
-
 .ela-actions-btn-cnt {
   width: 100%;
+}
+
+.ela-new-section-btn {
+  width: 2rem;
+  min-height: 100%;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: gray;
+  &:hover {
+    background: #8949ff;
+  }
+}
+
+.new-section-btn-text{
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-weight: 500;
+  font-size: 1rem;
+  color: #ffffff;
 }
 
 @media (min-width: 700px) {
@@ -219,6 +240,14 @@
   }
   .ela-dropdown-cnt {
     bottom: -12.5rem;
+  }
+  .ela-new-section-btn{
+    display: flex;
+    width: 5rem;
+  }
+
+  .new-section-btn-text{
+    font-size: 1.2rem;
   }
 }
 
