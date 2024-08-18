@@ -29,6 +29,8 @@ export const uploadVedio = (formdata) =>
 export const updateCourse = (updatedData) =>
   API.put(`/courseDetail/edit/${updatedData?._id}`, updatedData);
 
+export const deleteCourse = (courseId)=> API.delete(`/courseDetail/delete/${courseId}`)
+
 // test
 export const addnewTest = (test) => API.post("/tests", test);
 export const updateTest = (test) => API.put(`/tests/${test._id}`, test);

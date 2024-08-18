@@ -209,7 +209,7 @@
   }
 }
 
-.new-section-btn-text{
+.new-section-btn-text {
   writing-mode: vertical-rl;
   transform: rotate(180deg);
   font-weight: 500;
@@ -241,12 +241,12 @@
   .ela-dropdown-cnt {
     bottom: -12.5rem;
   }
-  .ela-new-section-btn{
+  .ela-new-section-btn {
     display: flex;
     width: 5rem;
   }
 
-  .new-section-btn-text{
+  .new-section-btn-text {
     font-size: 1.2rem;
   }
 }

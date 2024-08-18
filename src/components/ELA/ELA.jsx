@@ -119,31 +119,33 @@ const ELA = () => {
     const fetchEla = async () => {
       const { data } = await getEla();
       setTestId(data[0]?._id);
+      console.log(data[0]?.sections);
       setCurrentTest(data[0]?.sections);
     };
     fetchEla();
   }, []);
 
   const changeDifficulty = (difficulty) => {
-    let currentData = { ...currentTest };
+    let currentData = [...currentTest];
     currentData[currentSection].difficulty = difficulty;
     setCurrentTest(currentData);
   };
 
   const changeDuration = (type, value) => {
-    let currentData = { ...currentTest };
+    let currentData = [...currentTest];
     currentData[currentSection].duration[type] = value;
     setCurrentTest(currentData);
   };
 
   const updateTags = (value) => {
+    let currentData = [...currentTest];
     const tagsArray = value.split(",");
-    let currentData = { ...currentTest };
     currentData[currentSection].tags = tagsArray;
     setCurrentTest(currentData);
   };
 
   const updateSectionDetails = async () => {
+    let sectionIndex = currentSection;
     if (!Array.isArray(currentTest[currentSection].tags))
       updateTags(currentTest[currentSection].tags);
     let sectionDetails = {
@@ -157,7 +159,9 @@ const ELA = () => {
       currentSection + 1,
       sectionDetails
     );
-    setCurrentTest({ ...currentTest, [currentSection]: data });
+    const updatedData = [...currentTest];
+    updatedData[sectionIndex] = data;
+    setCurrentTest(updatedData);
   };
 
   const deleteQuestionByIndex = async () => {
@@ -174,7 +178,6 @@ const ELA = () => {
   const deleteSection = async () => {
     const res = await deleteSingleSection(TestId, currentSection + 1);
     setCurrentTest(res.sections);
-    console.log(res.sections);
     if (res) setCurrentTest(res.sections);
   };
 
@@ -183,7 +186,6 @@ const ELA = () => {
       ...defaultSection,
       section: currentTest.length + 1,
     });
-    console.log(res.sections);
     setCurrentTest(res.sections);
   };
 
@@ -517,15 +519,16 @@ const ELA = () => {
             <textarea
               type="text"
               value={currentTest[currentSection]?.description}
-              onChange={(e) =>
-                setCurrentTest({
-                  ...currentTest,
-                  [currentSection]: {
-                    ...currentTest[currentSection],
-                    description: e.target.value,
-                  },
-                })
-              }
+              onChange={(e) => {
+                setCurrentTest((prevTest) => {
+                  const updatedTest = [...prevTest];  
+                  updatedTest[currentSection] = {
+                    ...updatedTest[currentSection],  
+                    description: e.target.value,   
+                  };
+                  return updatedTest;
+                });
+              }}
               className="ela-description description-input "
             />
           </div>
@@ -573,15 +576,13 @@ const ELA = () => {
                   ? currentTest[currentSection]?.tags.join(", ")
                   : currentTest[currentSection]?.tags || ""
               }
-              onChange={(e) =>
-                setCurrentTest({
-                  ...currentTest,
-                  [currentSection]: {
-                    ...currentTest[currentSection],
-                    tags: e.target.value,
-                  },
-                })
-              }
+              onChange={(e) =>{
+            setCurrentTest((prevTest)=>{
+              const copy = [...prevTest]
+              copy[currentSection].tags = e.target.value
+              return copy
+            })
+              }}
               className="ela-tags description-input "
             />
           </div>

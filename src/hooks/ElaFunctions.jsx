@@ -48,10 +48,10 @@ export const deleteSingleQuestion = async (testId, section, questionIndex) => {
     console.log("Error updating section:", error);
   }
 };
-export const deleteSingleSection = async (testId, section, sectionNumber) => {
-  console.log(testId, section, sectionNumber);
+export const deleteSingleSection = async (testId, section) => {
+  console.log(testId, section);
   try {
-    const { data } = await deleteTestSection(testId, section, sectionNumber);
+    const { data } = await deleteTestSection(testId, section);
     console.log(data);
     return data;
   } catch (error) {
