@@ -71,6 +71,7 @@ export const addSection = async (testId,sectionData) => {
 };
 
 export const UTCtoSeconds = (timeObj) => {
+  console.log("callback")
   let { hour, minute } = timeObj;
   minute += hour * 60;
   return minute * 60;

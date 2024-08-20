@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState } from "react";
 import { getEla } from "../../api/baseApi";
 import {
   addNewQuestion,
@@ -115,13 +115,18 @@ const ELA = () => {
     };
     fetchEla();
   }, []);
-
   useEffect(() => {
-    const seconds = UTCtoSeconds(time);
-    let currentData = {...currentTest};
-    currentData.time = seconds;
-    setCurrentTest(currentData);
-  }, [time]);
+    const getTimeInSeconds = () => {
+      const seconds = UTCtoSeconds(time);
+      setCurrentTest(prevTest => {
+        let currentData = { ...prevTest };
+        currentData.time = seconds;
+        return currentData;
+      });
+    };
+    getTimeInSeconds();
+  }, [time]); 
+  
 
   const changeDifficulty = (difficulty) => {
     let currentData = {...currentTest};
