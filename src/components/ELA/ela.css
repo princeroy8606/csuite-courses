@@ -132,7 +132,6 @@
 
 .justify-section-cnt {
   min-height: 10rem;
-  justify-content: space-around;
 }
 
 .section-indicator {
@@ -243,7 +242,10 @@
   }
   .ela-new-section-btn {
     display: flex;
-    width: 5rem;
+    max-width: 10rem;
+    /* width: 5rem; */
+    flex: 1;
+
   }
 
   .new-section-btn-text {
